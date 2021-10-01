@@ -550,16 +550,19 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  10, 100, 0, 0),
-                                          child: Text(
-                                            'Hello World',
-                                            style: FlutterFlowTheme.title1
-                                                .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-0.7, 0.45),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10, 100, 0, 0),
+                                            child: Text(
+                                              'Hello World',
+                                              style: FlutterFlowTheme.bodyText1
+                                                  .override(
+                                                fontFamily: 'Roboto',
+                                              ),
                                             ),
                                           ),
                                         )

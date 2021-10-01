@@ -1,8 +1,12 @@
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
+import '../flutter_flow/flutter_flow_place_picker.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../flutter_flow/place.dart';
 import '../flutter_flow/upload_media.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +25,7 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
   TextEditingController textController2;
   TextEditingController textController3;
   TextEditingController textController4;
+  var placePickerValue = FFPlace();
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -469,6 +474,41 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
                       )
                     ],
                   ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    FlutterFlowPlacePicker(
+                      iOSGoogleMapsApiKey:
+                          '883261131668-itrdu1sc68o6t6iknm47m3bcdsro63v4.apps.googleusercontent.com',
+                      androidGoogleMapsApiKey:
+                          '883261131668-7e78a18qe34d4u93meumi3niurarvrek.apps.googleusercontent.com',
+                      webGoogleMapsApiKey:
+                          '883261131668-urqunqqv9aitkrs1h9umuhdd27dguni3.apps.googleusercontent.com',
+                      onSelect: (place) =>
+                          setState(() => placePickerValue = place),
+                      defaultText: 'Select Location',
+                      icon: Icon(
+                        Icons.place,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      buttonOptions: FFButtonOptions(
+                        width: 200,
+                        height: 40,
+                        color: FlutterFlowTheme.primaryColor,
+                        textStyle: FlutterFlowTheme.subtitle2.override(
+                          fontFamily: 'Quicksand',
+                          color: Colors.white,
+                        ),
+                        borderSide: BorderSide(
+                          color: Colors.transparent,
+                          width: 1,
+                        ),
+                        borderRadius: 12,
+                      ),
+                    )
+                  ],
                 )
               ],
             ),
