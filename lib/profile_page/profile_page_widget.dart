@@ -31,7 +31,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
             child: SizedBox(
               width: 50,
               height: 50,
-              child: SpinKitDualRing(
+              child: SpinKitFadingCircle(
                 color: Color(0xFFE5831D),
                 size: 50,
               ),
@@ -41,6 +41,37 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
         final profilePageUsersRecord = snapshot.data;
         return Scaffold(
           key: scaffoldKey,
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            automaticallyImplyLeading: false,
+            title: Text(
+              profilePageUsersRecord.username,
+              style: FlutterFlowTheme.title1.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
+            ),
+            actions: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+                child: FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderRadius: 30,
+                  buttonSize: 48,
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: Color(0xFF95A1AC),
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ],
+            centerTitle: false,
+            elevation: 0,
+          ),
           backgroundColor: Colors.black,
           body: SafeArea(
             child: Column(
@@ -50,72 +81,14 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.white,
-                              size: 24,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                            child: Text(
-                              profilePageUsersRecord.username,
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Lato',
-                                color: Colors.white,
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 2),
-                            child: Container(
-                              width: 28,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: Color(0xFF930505),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Align(
-                                alignment: AlignmentDirectional(0, 0),
-                                child: Text(
-                                  '9+',
-                                  style: FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Roboto',
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                                EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
                             child: Icon(
                               Icons.menu_rounded,
                               color: Colors.white,
@@ -166,10 +139,30 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 5, 0, 10),
                                 child: Text(
-                                  'Jonathan Keys',
+                                  profilePageUsersRecord.displayName,
                                   style: FlutterFlowTheme.subtitle2.override(
                                     fontFamily: 'Quicksand',
                                     fontSize: 22,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional(0, 0),
+                              child: Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 5, 0, 10),
+                                child: Text(
+                                  profilePageUsersRecord.bio,
+                                  style: FlutterFlowTheme.subtitle2.override(
+                                    fontFamily: 'Quicksand',
                                   ),
                                 ),
                               ),
@@ -195,8 +188,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     color: Colors.white,
                                     size: 30,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await launchURL(
+                                        profilePageUsersRecord.facebookUrl);
                                   },
                                 )
                               ],
@@ -213,8 +207,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     color: Colors.white,
                                     size: 30,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await launchURL(
+                                        profilePageUsersRecord.instagramUrl);
                                   },
                                 )
                               ],
@@ -231,8 +226,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                     color: Colors.white,
                                     size: 30,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    await launchURL(
+                                        profilePageUsersRecord.tiktokUrl);
                                   },
                                 )
                               ],
@@ -409,7 +405,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                               child: SizedBox(
                                 width: 50,
                                 height: 50,
-                                child: SpinKitDualRing(
+                                child: SpinKitFadingCircle(
                                   color: Color(0xFFE5831D),
                                   size: 50,
                                 ),
@@ -456,7 +452,7 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget> {
                                           child: SizedBox(
                                             width: 50,
                                             height: 50,
-                                            child: SpinKitDualRing(
+                                            child: SpinKitFadingCircle(
                                               color: Color(0xFFE5831D),
                                               size: 50,
                                             ),

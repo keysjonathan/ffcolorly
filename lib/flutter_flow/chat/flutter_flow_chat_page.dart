@@ -95,6 +95,9 @@ class _FFChatPageState extends State<FFChatPage> {
   @override
   void initState() {
     super.initState();
+    if (otherUser.name.isEmpty) {
+      otherUser.name = 'Friend';
+    }
     updateMessages(FFChatManager.instance.getLatestMessages(chatReference));
     messagesStream = getMessagesStream(chatReference);
     SchedulerBinding.instance.addPostFrameCallback((_) {

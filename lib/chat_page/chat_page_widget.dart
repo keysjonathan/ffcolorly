@@ -26,7 +26,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color(0xFF090F13),
+        backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
         title: Text(
           valueOrDefault<String>(
@@ -51,6 +51,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
             widget.chatUser.reference,
             ChatUser(
               uid: widget.chatUser.reference.id,
+              name: widget.chatUser.displayName,
               avatar: widget.chatUser.photoUrl,
             ),
           ),
@@ -104,7 +105,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                   child: SizedBox(
                     width: 50,
                     height: 50,
-                    child: SpinKitDualRing(
+                    child: SpinKitFadingCircle(
                       color: Color(0xFFE5831D),
                       size: 50,
                     ),

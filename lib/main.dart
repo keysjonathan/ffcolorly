@@ -12,7 +12,6 @@ import 'flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'home/home_widget.dart';
 import 'explore/explore_widget.dart';
-import 'create_post/create_post_widget.dart';
 import 'notifications/notifications_widget.dart';
 import 'profile_page/profile_page_widget.dart';
 
@@ -59,12 +58,15 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const [Locale('en', '')],
       theme: ThemeData(primarySwatch: Colors.blue),
       home: initialUser == null
-          ? Center(
-              child: Builder(
-                builder: (context) => Image.asset(
-                  'assets/images/1_Splash_1.png',
-                  width: MediaQuery.of(context).size.width / 2,
-                  fit: BoxFit.fitWidth,
+          ? Container(
+              color: Colors.transparent,
+              child: Center(
+                child: Builder(
+                  builder: (context) => Image.asset(
+                    'assets/images/1_Splash_1.png',
+                    width: MediaQuery.of(context).size.width,
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
               ),
             )
@@ -99,7 +101,6 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'Home': HomeWidget(),
       'Explore': ExploreWidget(),
-      'CreatePost': CreatePostWidget(),
       'Notifications': NotificationsWidget(),
       'ProfilePage': ProfilePageWidget(),
     };
@@ -118,13 +119,6 @@ class _NavBarPageState extends State<NavBarPage> {
             icon: FaIcon(
               FontAwesomeIcons.searchLocation,
               size: 16,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.video,
-              size: 40,
             ),
             label: 'Home',
           ),

@@ -1,3 +1,4 @@
+import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -6,13 +7,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MapPageWidget extends StatefulWidget {
-  MapPageWidget({Key key}) : super(key: key);
+  MapPageWidget({
+    Key key,
+    this.restaurant,
+  }) : super(key: key);
+
+  final RestaurantsRecord restaurant;
 
   @override
   _MapPageWidgetState createState() => _MapPageWidgetState();
 }
 
 class _MapPageWidgetState extends State<MapPageWidget> {
+  List<RestaurantsRecord> algoliaSearchResults = [];
   TextEditingController textController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -39,7 +46,7 @@ class _MapPageWidgetState extends State<MapPageWidget> {
                 width: MediaQuery.of(context).size.width,
                 height: 108,
                 decoration: BoxDecoration(
-                  color: Color(0xFF101010),
+                  color: Colors.black,
                 ),
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(24, 44, 0, 0),
@@ -104,7 +111,15 @@ class _MapPageWidgetState extends State<MapPageWidget> {
                     height: MediaQuery.of(context).size.height * 1,
                     decoration: BoxDecoration(),
                     child: FlutterFlowGoogleMap(
-                      initialLocation: LatLng(13.106061, -59.613158),
+                      initialLocation: LatLng(39.7684, -86.1581),
+                      markers: (algoliaSearchResults ?? [])
+                          .map(
+                            (algoliaSearchResultsItem) => FlutterFlowMarker(
+                              algoliaSearchResultsItem.reference.path,
+                              algoliaSearchResultsItem.restLatLong,
+                            ),
+                          )
+                          .toList(),
                       markerColor: GoogleMarkerColor.violet,
                       mapType: MapType.normal,
                       style: GoogleMapStyle.standard,
@@ -158,10 +173,26 @@ class _MapPageWidgetState extends State<MapPageWidget> {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       4, 0, 4, 0),
-                                  child: Icon(
-                                    Icons.search_rounded,
-                                    color: Color(0xFF95A1AC),
-                                    size: 24,
+                                  child: InkWell(
+                                    onTap: () async {
+                                      setState(
+                                          () => algoliaSearchResults = null);
+                                      await RestaurantsRecord.search(
+                                        term: textController.text,
+                                        location: getCurrentUserLocation(),
+                                        maxResults: 5,
+                                        searchRadiusMeters: 30000,
+                                      )
+                                          .then((r) => algoliaSearchResults = r)
+                                          .onError((_, __) =>
+                                              algoliaSearchResults = [])
+                                          .whenComplete(() => setState(() {}));
+                                    },
+                                    child: Icon(
+                                      Icons.search_rounded,
+                                      color: Color(0xFF95A1AC),
+                                      size: 24,
+                                    ),
                                   ),
                                 ),
                                 Expanded(
@@ -174,6 +205,14 @@ class _MapPageWidgetState extends State<MapPageWidget> {
                                       decoration: InputDecoration(
                                         labelText: textController.text,
                                         labelStyle:
+                                            FlutterFlowTheme.bodyText1.override(
+                                          fontFamily: 'Lexend Deca',
+                                          color: Color(0xFF95A1AC),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        hintText: 'Search...',
+                                        hintStyle:
                                             FlutterFlowTheme.bodyText1.override(
                                           fontFamily: 'Lexend Deca',
                                           color: Color(0xFF95A1AC),

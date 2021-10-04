@@ -6,6 +6,7 @@ import 'posts_record.dart';
 import 'restaurants_record.dart';
 import 'chats_record.dart';
 import 'chat_messages_record.dart';
+import 'posts2_record.dart';
 
 import 'index.dart';
 
@@ -23,6 +24,7 @@ const kDocumentReferenceField = 'Document__Reference__Field';
   RestaurantsRecord,
   ChatsRecord,
   ChatMessagesRecord,
+  Posts2Record,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..add(DocumentReferenceSerializer())

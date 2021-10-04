@@ -61,6 +61,10 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   bool get followingTrue;
 
   @nullable
+  @BuiltValueField(wireName: 'rest_slogan')
+  String get restSlogan;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -77,7 +81,8 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..facebookUrl = ''
     ..instagramUrl = ''
     ..tiktokUrl = ''
-    ..followingTrue = false;
+    ..followingTrue = false
+    ..restSlogan = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -111,6 +116,7 @@ Map<String, dynamic> createUsersRecordData({
   String instagramUrl,
   String tiktokUrl,
   bool followingTrue,
+  String restSlogan,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -128,4 +134,5 @@ Map<String, dynamic> createUsersRecordData({
           ..facebookUrl = facebookUrl
           ..instagramUrl = instagramUrl
           ..tiktokUrl = tiktokUrl
-          ..followingTrue = followingTrue));
+          ..followingTrue = followingTrue
+          ..restSlogan = restSlogan));

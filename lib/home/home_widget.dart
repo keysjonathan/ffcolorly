@@ -4,12 +4,24 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_toggle_icon.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_video_player.dart';
+import '../main.dart';
+import '../restaurant_page/restaurant_page_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeWidget extends StatefulWidget {
-  HomeWidget({Key key}) : super(key: key);
+  HomeWidget({
+    Key key,
+    this.restaurants,
+    this.users,
+    this.posts,
+  }) : super(key: key);
+
+  final RestaurantsRecord restaurants;
+  final DocumentReference users;
+  final DocumentReference posts;
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -73,7 +85,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 child: SizedBox(
                                   width: 50,
                                   height: 50,
-                                  child: SpinKitDualRing(
+                                  child: SpinKitFadingCircle(
                                     color: Color(0xFFE5831D),
                                     size: 50,
                                   ),
@@ -111,300 +123,270 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   itemBuilder: (context, pageViewIndex) {
                                     final pageViewPostsRecord =
                                         pageViewPostsRecordList[pageViewIndex];
-                                    return ListView(
-                                      padding: EdgeInsets.zero,
-                                      scrollDirection: Axis.vertical,
-                                      children: [
-                                        Container(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
+                                    return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height *
                                               1,
-                                          decoration: BoxDecoration(),
-                                          child: Container(
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            child: Stack(
+                                      decoration: BoxDecoration(),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Stack(
+                                          children: [
+                                            FlutterFlowVideoPlayer(
+                                              path:
+                                                  pageViewPostsRecord.videoUrl,
+                                              videoType: VideoType.network,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                              autoPlay: true,
+                                              looping: true,
+                                              showControls: false,
+                                              allowFullScreen: false,
+                                              allowPlaybackSpeedMenu: false,
+                                            ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
                                               children: [
-                                                FlutterFlowVideoPlayer(
-                                                  path: pageViewPostsRecord
-                                                      .videoUrl,
-                                                  videoType: VideoType.network,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
-                                                  autoPlay: true,
-                                                  looping: true,
-                                                  showControls: false,
-                                                  allowFullScreen: false,
-                                                  allowPlaybackSpeedMenu: false,
-                                                ),
-                                                Row(
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 450, 0, 0),
+                                                  child: Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height: 220,
+                                                    decoration: BoxDecoration(
+                                                      gradient: LinearGradient(
+                                                        colors: [
+                                                          Color(0x00F44336),
+                                                          Color(0xC1000000)
+                                                        ],
+                                                        stops: [0, 1],
+                                                        begin:
+                                                            AlignmentDirectional(
+                                                                0, -1),
+                                                        end:
+                                                            AlignmentDirectional(
+                                                                0, 1),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  -3.32, 0),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(10, 0, 100, 0),
+                                                child: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .stretch,
                                                   children: [
                                                     Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  0, 510, 0, 0),
-                                                      child: Container(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        height: 120,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          gradient:
-                                                              LinearGradient(
-                                                            colors: [
-                                                              Color(0x00F44336),
-                                                              Color(0xC1000000)
-                                                            ],
-                                                            stops: [0, 1],
-                                                            begin:
-                                                                AlignmentDirectional(
-                                                                    0, -1),
-                                                            end:
-                                                                AlignmentDirectional(
-                                                                    0, 1),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional(
-                                                          -3.32, 0),
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                10, 0, 100, 0),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .stretch,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0,
-                                                                      520,
-                                                                      0,
-                                                                      0),
-                                                          child: Text(
-                                                            'Jonathan Keys',
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .subtitle2
-                                                                    .override(
-                                                              fontFamily:
-                                                                  'Quicksand',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(0,
-                                                                      10, 0, 0),
-                                                          child: Text(
-                                                            'This was a great place to eat and spend...',
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .bodyText1
-                                                                    .override(
-                                                              fontFamily:
-                                                                  'Roboto',
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(0,
-                                                                      7, 0, 0),
-                                                          child: Text(
-                                                            'Hirosaki Japanese Steakhouse- Avon',
-                                                            style:
-                                                                FlutterFlowTheme
-                                                                    .bodyText1
-                                                                    .override(
-                                                              fontFamily:
-                                                                  'Roboto',
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional(
-                                                          0.85, 0),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(0, 30,
-                                                                    0, 0),
-                                                        child:
-                                                            FlutterFlowIconButton(
-                                                          borderColor: Colors
-                                                              .transparent,
-                                                          borderRadius: 30,
-                                                          buttonSize: 48,
-                                                          icon: Icon(
-                                                            Icons
-                                                                .message_rounded,
-                                                            color: Colors.white,
-                                                            size: 30,
-                                                          ),
-                                                          onPressed: () {
-                                                            print(
-                                                                'IconButton pressed ...');
-                                                          },
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'Hello World',
-                                                        style: FlutterFlowTheme
-                                                            .bodyText1
-                                                            .override(
-                                                          fontFamily: 'Roboto',
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsetsDirectional
-                                                                .fromSTEB(0, 30,
-                                                                    0, 0),
-                                                        child:
-                                                            FlutterFlowIconButton(
-                                                          borderColor: Colors
-                                                              .transparent,
-                                                          borderRadius: 30,
-                                                          buttonSize: 48,
-                                                          icon: Icon(
-                                                            Icons.share,
-                                                            color: Colors.white,
-                                                            size: 30,
-                                                          ),
-                                                          onPressed: () {
-                                                            print(
-                                                                'IconButton pressed ...');
-                                                          },
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'Hello World',
-                                                        style: FlutterFlowTheme
-                                                            .bodyText1
-                                                            .override(
-                                                          fontFamily: 'Roboto',
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                Stack(
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              0.85, -0.5),
-                                                      child: Container(
-                                                        width: 50,
-                                                        height: 50,
-                                                        clipBehavior:
-                                                            Clip.antiAlias,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child: Image.network(
-                                                          'https://picsum.photos/seed/500/600',
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional(
-                                                          0.79, -0.43),
-                                                  child: Icon(
-                                                    Icons.add_circle_outlined,
-                                                    color: Colors.orange,
-                                                    size: 24,
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(10, 470, 0, 0),
-                                                  child: Container(
-                                                    width: 40,
-                                                    height: 40,
-                                                    decoration: BoxDecoration(
-                                                      color: Color(0xFF39D23D),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              0, 0),
+                                                                  0, 520, 0, 0),
                                                       child: Text(
-                                                        '5',
+                                                        'Jonathan Keys',
                                                         textAlign:
-                                                            TextAlign.center,
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                            .subtitle2
+                                                            .override(
+                                                          fontFamily:
+                                                              'Quicksand',
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 10, 0, 0),
+                                                      child: Text(
+                                                        'This was a great place to eat and spend...',
+                                                        textAlign:
+                                                            TextAlign.start,
                                                         style: FlutterFlowTheme
                                                             .bodyText1
                                                             .override(
                                                           fontFamily: 'Roboto',
-                                                          fontSize: 30,
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 7, 0, 0),
+                                                      child: Text(
+                                                        'Hirosaki Japanese Steakhouse- Avon',
+                                                        style: FlutterFlowTheme
+                                                            .bodyText1
+                                                            .override(
+                                                          fontFamily: 'Roboto',
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                                Align(
-                                                  alignment:
-                                                      AlignmentDirectional(
-                                                          0.77, 0),
-                                                  child: Padding(
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  AlignmentDirectional(0.85, 0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                0, 390, 0, 0),
+                                                                0, 270, 0, 0),
+                                                    child: ToggleIcon(
+                                                      onPressed: () async {
+                                                        final postsUpdateData =
+                                                            createPostsRecordData(
+                                                          liked:
+                                                              !pageViewPostsRecord
+                                                                  .liked,
+                                                        );
+                                                        await pageViewPostsRecord
+                                                            .reference
+                                                            .update(
+                                                                postsUpdateData);
+                                                      },
+                                                      value: pageViewPostsRecord
+                                                          .liked,
+                                                      onIcon: Icon(
+                                                        Icons
+                                                            .local_fire_department_sharp,
+                                                        color:
+                                                            Color(0xFF920000),
+                                                        size: 30,
+                                                      ),
+                                                      offIcon: Icon(
+                                                        Icons
+                                                            .local_fire_department_sharp,
+                                                        color: Colors.white,
+                                                        size: 30,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    pageViewPostsRecord.numLikes
+                                                        .toString()
+                                                        .maybeHandleOverflow(
+                                                            maxChars: 4),
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Roboto',
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 30, 0, 0),
+                                                    child:
+                                                        FlutterFlowIconButton(
+                                                      borderColor:
+                                                          Colors.transparent,
+                                                      borderRadius: 30,
+                                                      buttonSize: 48,
+                                                      icon: Icon(
+                                                        Icons.message_rounded,
+                                                        color: Colors.white,
+                                                        size: 30,
+                                                      ),
+                                                      onPressed: () {
+                                                        print(
+                                                            'IconButton pressed ...');
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    pageViewPostsRecord
+                                                        .numComments
+                                                        .toString(),
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Roboto',
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 30, 0, 0),
+                                                    child:
+                                                        FlutterFlowIconButton(
+                                                      borderColor:
+                                                          Colors.transparent,
+                                                      borderRadius: 30,
+                                                      buttonSize: 48,
+                                                      icon: Icon(
+                                                        Icons.share,
+                                                        color: Colors.white,
+                                                        size: 30,
+                                                      ),
+                                                      onPressed: () {
+                                                        print(
+                                                            'IconButton pressed ...');
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    pageViewPostsRecord
+                                                        .numShares
+                                                        .toString(),
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Roboto',
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Stack(
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0.85, -0.5),
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NavBarPage(
+                                                                  initialPage:
+                                                                      'ProfilePage'),
+                                                        ),
+                                                      );
+                                                    },
                                                     child: Container(
-                                                      width: 40,
-                                                      height: 40,
+                                                      width: 50,
+                                                      height: 50,
                                                       clipBehavior:
                                                           Clip.antiAlias,
                                                       decoration: BoxDecoration(
@@ -418,9 +400,75 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 )
                                               ],
                                             ),
-                                          ),
-                                        )
-                                      ],
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  0.79, -0.43),
+                                              child: Icon(
+                                                Icons.add_circle_outlined,
+                                                color: Colors.orange,
+                                                size: 24,
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment:
+                                                  AlignmentDirectional(0.77, 0),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(0, 390, 0, 0),
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RestaurantPageWidget(),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    clipBehavior:
+                                                        Clip.antiAlias,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Image.network(
+                                                      'https://picsum.photos/seed/500/600',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(10, 470, 0, 0),
+                                              child: Container(
+                                                width: 40,
+                                                height: 40,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFF39D23D),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(2, 2, 2, 2),
+                                                  child: Text(
+                                                    '5',
+                                                    textAlign: TextAlign.center,
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Roboto',
+                                                      fontSize: 30,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
                                     );
                                   },
                                 ),
@@ -442,7 +490,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 child: SizedBox(
                                   width: 50,
                                   height: 50,
-                                  child: SpinKitDualRing(
+                                  child: SpinKitFadingCircle(
                                     color: Color(0xFFE5831D),
                                     size: 50,
                                   ),

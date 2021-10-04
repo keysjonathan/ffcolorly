@@ -171,6 +171,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Name',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:
@@ -193,10 +198,34 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                       ],
                     ),
                   ),
-                  Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 18,
+                  InkWell(
+                    onTap: () async {
+                      final usersUpdateData = createUsersRecordData(
+                        displayName: textController1.text,
+                      );
+                      await widget.user.reference.update(usersUpdateData);
+                      await showDialog(
+                        context: context,
+                        builder: (alertDialogContext) {
+                          return AlertDialog(
+                            title: Text('Success!'),
+                            content: Text('This information has been changed'),
+                            actions: [
+                              TextButton(
+                                onPressed: () =>
+                                    Navigator.pop(alertDialogContext),
+                                child: Text('Ok'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   )
                 ],
               ),
@@ -227,6 +256,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Username',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:
@@ -284,6 +318,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Link',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:
@@ -341,6 +380,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Bio',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:
@@ -408,6 +452,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Facebook',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:
@@ -464,6 +513,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Instagram',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:
@@ -520,6 +574,11 @@ class _EditProfilePageWidgetState extends State<EditProfilePageWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
+                            labelText: 'Tiktok',
+                            labelStyle: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                              fontSize: 16,
+                            ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             contentPadding:

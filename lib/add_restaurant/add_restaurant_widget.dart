@@ -1,3 +1,5 @@
+import '../auth/auth_util.dart';
+import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_place_picker.dart';
@@ -7,6 +9,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/place.dart';
 import '../flutter_flow/upload_media.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,9 +26,15 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
   String uploadedFileUrl2 = '';
   TextEditingController textController1;
   TextEditingController textController2;
+  var placePickerValue = FFPlace();
   TextEditingController textController3;
   TextEditingController textController4;
-  var placePickerValue = FFPlace();
+  TextEditingController textController5;
+  TextEditingController textController6;
+  TextEditingController textController7;
+  TextEditingController textController8;
+  TextEditingController textController9;
+  TextEditingController textController10;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -36,6 +45,12 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
     textController2 = TextEditingController();
     textController3 = TextEditingController();
     textController4 = TextEditingController();
+    textController5 = TextEditingController();
+    textController6 = TextEditingController();
+    textController7 = TextEditingController();
+    textController8 = TextEditingController();
+    textController9 = TextEditingController();
+    textController10 = TextEditingController();
   }
 
   @override
@@ -353,6 +368,45 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
                   padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FlutterFlowPlacePicker(
+                        iOSGoogleMapsApiKey:
+                            'AIzaSyBH1fZaBJ0aBUx4Y6fjsVaEs6cD9FhYgow',
+                        androidGoogleMapsApiKey:
+                            'AIzaSyB8YLpQ-pVGaEOSZEfaoDBbniyzNHREMP0',
+                        webGoogleMapsApiKey:
+                            'AIzaSyCI7LeCn7jPdiTPwKiLhn6xMxPlcLevReM',
+                        onSelect: (place) =>
+                            setState(() => placePickerValue = place),
+                        defaultText: 'Full Address',
+                        icon: Icon(
+                          Icons.place,
+                          color: Colors.white,
+                          size: 16,
+                        ),
+                        buttonOptions: FFButtonOptions(
+                          width: 200,
+                          height: 40,
+                          color: FlutterFlowTheme.primaryColor,
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Quicksand',
+                            color: Colors.white,
+                          ),
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: 12,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Expanded(
@@ -364,7 +418,7 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
                             controller: textController3,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Restaurant Name',
+                              labelText: 'Phone Number',
                               labelStyle: FlutterFlowTheme.bodyText1.override(
                                 fontFamily: 'Roboto',
                               ),
@@ -427,7 +481,7 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
                             controller: textController4,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Restaurant Name',
+                              labelText: 'Email',
                               labelStyle: FlutterFlowTheme.bodyText1.override(
                                 fontFamily: 'Roboto',
                               ),
@@ -475,26 +529,416 @@ class _AddRestaurantWidgetState extends State<AddRestaurantWidget> {
                     ],
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                          child: TextFormField(
+                            onChanged: (_) => setState(() {}),
+                            controller: textController5,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Website',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Roboto',
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              suffixIcon: textController5.text.isNotEmpty
+                                  ? InkWell(
+                                      onTap: () => setState(
+                                        () => textController5.clear(),
+                                      ),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Color(0xFF757575),
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return 'Field is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                          child: TextFormField(
+                            onChanged: (_) => setState(() {}),
+                            controller: textController6,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Restaurant Slogan',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Roboto',
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              suffixIcon: textController6.text.isNotEmpty
+                                  ? InkWell(
+                                      onTap: () => setState(
+                                        () => textController6.clear(),
+                                      ),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Color(0xFF757575),
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return 'Field is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                          child: TextFormField(
+                            onChanged: (_) => setState(() {}),
+                            controller: textController7,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Restaurant Description',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Roboto',
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              suffixIcon: textController7.text.isNotEmpty
+                                  ? InkWell(
+                                      onTap: () => setState(
+                                        () => textController7.clear(),
+                                      ),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Color(0xFF757575),
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return 'Field is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                          child: TextFormField(
+                            onChanged: (_) => setState(() {}),
+                            controller: textController8,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Category 1',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Roboto',
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              suffixIcon: textController8.text.isNotEmpty
+                                  ? InkWell(
+                                      onTap: () => setState(
+                                        () => textController8.clear(),
+                                      ),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Color(0xFF757575),
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return 'Field is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                          child: TextFormField(
+                            onChanged: (_) => setState(() {}),
+                            controller: textController9,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Category 2',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Roboto',
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              suffixIcon: textController9.text.isNotEmpty
+                                  ? InkWell(
+                                      onTap: () => setState(
+                                        () => textController9.clear(),
+                                      ),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Color(0xFF757575),
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return 'Field is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 10),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                          child: TextFormField(
+                            onChanged: (_) => setState(() {}),
+                            controller: textController10,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Category 3',
+                              labelStyle: FlutterFlowTheme.bodyText1.override(
+                                fontFamily: 'Roboto',
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.customColor3,
+                                  width: 3,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              filled: true,
+                              suffixIcon: textController10.text.isNotEmpty
+                                  ? InkWell(
+                                      onTap: () => setState(
+                                        () => textController10.clear(),
+                                      ),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Color(0xFF757575),
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Roboto',
+                            ),
+                            validator: (val) {
+                              if (val.isEmpty) {
+                                return 'Field is required';
+                              }
+
+                              return null;
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FlutterFlowPlacePicker(
-                      iOSGoogleMapsApiKey:
-                          '883261131668-itrdu1sc68o6t6iknm47m3bcdsro63v4.apps.googleusercontent.com',
-                      androidGoogleMapsApiKey:
-                          '883261131668-7e78a18qe34d4u93meumi3niurarvrek.apps.googleusercontent.com',
-                      webGoogleMapsApiKey:
-                          '883261131668-urqunqqv9aitkrs1h9umuhdd27dguni3.apps.googleusercontent.com',
-                      onSelect: (place) =>
-                          setState(() => placePickerValue = place),
-                      defaultText: 'Select Location',
-                      icon: Icon(
-                        Icons.place,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                      buttonOptions: FFButtonOptions(
-                        width: 200,
+                    FFButtonWidget(
+                      onPressed: () async {
+                        if (!formKey.currentState.validate()) {
+                          return;
+                        }
+                        final restaurantsCreateData = {
+                          ...createRestaurantsRecordData(
+                            restaurantName: textController1.text,
+                            restaurantAddress: textController2.text,
+                            featuredImage: uploadedFileUrl2,
+                            logo: uploadedFileUrl1,
+                            restLatLong: placePickerValue.latLng,
+                            email: textController4.text,
+                            priceRange: '',
+                            restDescription: textController7.text,
+                            website: textController5.text,
+                            restSlogan: textController6.text,
+                          ),
+                          'categories': FieldValue.arrayUnion(
+                              [double.parse(textController8.text)]),
+                        };
+                        await RestaurantsRecord.collection
+                            .doc()
+                            .set(restaurantsCreateData);
+                      },
+                      text: 'Submit',
+                      options: FFButtonOptions(
+                        width: 130,
                         height: 40,
                         color: FlutterFlowTheme.primaryColor,
                         textStyle: FlutterFlowTheme.subtitle2.override(

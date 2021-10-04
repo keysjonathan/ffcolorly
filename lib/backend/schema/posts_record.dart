@@ -50,12 +50,22 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   DocumentReference get restaurantConnect;
 
   @nullable
-  @BuiltValueField(wireName: 'user_rating')
-  int get userRating;
-
-  @nullable
   @BuiltValueField(wireName: 'created_at')
   DateTime get createdAt;
+
+  @nullable
+  @BuiltValueField(wireName: 'restaurant_name')
+  String get restaurantName;
+
+  @nullable
+  @BuiltValueField(wireName: 'user_rating')
+  double get userRating;
+
+  @nullable
+  bool get diversetag;
+
+  @nullable
+  bool get inclusivetag;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -71,7 +81,10 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
     ..descritpion = ''
     ..videoThumbnail = ''
     ..liked = false
-    ..userRating = 0;
+    ..restaurantName = ''
+    ..userRating = 0.0
+    ..diversetag = false
+    ..inclusivetag = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('posts');
@@ -102,8 +115,11 @@ Map<String, dynamic> createPostsRecordData({
   String videoThumbnail,
   bool liked,
   DocumentReference restaurantConnect,
-  int userRating,
   DateTime createdAt,
+  String restaurantName,
+  double userRating,
+  bool diversetag,
+  bool inclusivetag,
 }) =>
     serializers.toFirestore(
         PostsRecord.serializer,
@@ -119,5 +135,8 @@ Map<String, dynamic> createPostsRecordData({
           ..videoThumbnail = videoThumbnail
           ..liked = liked
           ..restaurantConnect = restaurantConnect
+          ..createdAt = createdAt
+          ..restaurantName = restaurantName
           ..userRating = userRating
-          ..createdAt = createdAt));
+          ..diversetag = diversetag
+          ..inclusivetag = inclusivetag));

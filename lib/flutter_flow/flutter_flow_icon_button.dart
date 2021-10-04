@@ -31,8 +31,8 @@ class FlutterFlowIconButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: fillColor,
             border: Border.all(
-              color: borderColor,
-              width: borderWidth,
+              color: borderColor ?? Colors.transparent,
+              width: borderWidth ?? 0,
             ),
             borderRadius: BorderRadius.circular(borderRadius),
           ),

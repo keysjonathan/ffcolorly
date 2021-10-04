@@ -377,7 +377,7 @@ class _CreatePostCompCopyWidgetState extends State<CreatePostCompCopyWidget> {
                     child: SizedBox(
                       width: 50,
                       height: 50,
-                      child: SpinKitDualRing(
+                      child: SpinKitFadingCircle(
                         color: Color(0xFFE5831D),
                         size: 50,
                       ),
@@ -397,11 +397,11 @@ class _CreatePostCompCopyWidgetState extends State<CreatePostCompCopyWidget> {
                 }
                 return FlutterFlowPlacePicker(
                   iOSGoogleMapsApiKey:
-                      '883261131668-itrdu1sc68o6t6iknm47m3bcdsro63v4.apps.googleusercontent.com',
+                      'AIzaSyBH1fZaBJ0aBUx4Y6fjsVaEs6cD9FhYgow',
                   androidGoogleMapsApiKey:
-                      '883261131668-7e78a18qe34d4u93meumi3niurarvrek.apps.googleusercontent.com',
+                      'AIzaSyB8YLpQ-pVGaEOSZEfaoDBbniyzNHREMP0',
                   webGoogleMapsApiKey:
-                      '883261131668-urqunqqv9aitkrs1h9umuhdd27dguni3.apps.googleusercontent.com',
+                      'AIzaSyCI7LeCn7jPdiTPwKiLhn6xMxPlcLevReM',
                   onSelect: (place) => setState(() => placePickerValue = place),
                   defaultText: 'Tag Restaurant',
                   icon: Icon(

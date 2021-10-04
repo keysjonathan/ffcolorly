@@ -1,4 +1,3 @@
-import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color(0xFF090F13),
+        backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
         title: Text(
           'Messages',
@@ -42,7 +41,7 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
         centerTitle: false,
         elevation: 2,
       ),
-      backgroundColor: Color(0xFFDBE2E7),
+      backgroundColor: Color(0xFF101010),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +56,7 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
                     width: MediaQuery.of(context).size.width,
                     height: 80,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Color(0xFF101010),
                     ),
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
@@ -86,6 +85,7 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             4, 0, 0, 0),
                                         child: TextFormField(
+                                          onChanged: (_) => setState(() {}),
                                           controller: textController,
                                           obscureText: false,
                                           decoration: InputDecoration(
@@ -120,6 +120,20 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
                                                 topRight: Radius.circular(4.0),
                                               ),
                                             ),
+                                            suffixIcon: textController
+                                                    .text.isNotEmpty
+                                                ? InkWell(
+                                                    onTap: () => setState(
+                                                      () => textController
+                                                          .clear(),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.clear,
+                                                      color: Color(0xFF2F2F2F),
+                                                      size: 20,
+                                                    ),
+                                                  )
+                                                : null,
                                           ),
                                           style: FlutterFlowTheme.bodyText1
                                               .override(
@@ -131,19 +145,6 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
                                           textAlign: TextAlign.start,
                                         ),
                                       ),
-                                    ),
-                                    FlutterFlowIconButton(
-                                      borderColor: Colors.transparent,
-                                      borderRadius: 30,
-                                      buttonSize: 48,
-                                      icon: Icon(
-                                        Icons.filter_alt_rounded,
-                                        color: Color(0xFF95A1AC),
-                                        size: 30,
-                                      ),
-                                      onPressed: () {
-                                        print('IconButton pressed ...');
-                                      },
                                     )
                                   ],
                                 ),

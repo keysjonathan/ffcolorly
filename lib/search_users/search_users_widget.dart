@@ -40,7 +40,7 @@ class _SearchUsersWidgetState extends State<SearchUsersWidget> {
                     width: MediaQuery.of(context).size.width,
                     height: 140,
                     decoration: BoxDecoration(
-                      color: Color(0xFF101010),
+                      color: Colors.black,
                       border: Border.all(
                         color: Color(0xFF101010),
                       ),
@@ -192,7 +192,7 @@ class _SearchUsersWidgetState extends State<SearchUsersWidget> {
                           child: SizedBox(
                             width: 50,
                             height: 50,
-                            child: SpinKitDualRing(
+                            child: SpinKitFadingCircle(
                               color: Color(0xFFE5831D),
                               size: 50,
                             ),
@@ -351,7 +351,7 @@ class _SearchUsersWidgetState extends State<SearchUsersWidget> {
                           child: SizedBox(
                             width: 50,
                             height: 50,
-                            child: SpinKitDualRing(
+                            child: SpinKitFadingCircle(
                               color: Color(0xFFE5831D),
                               size: 50,
                             ),

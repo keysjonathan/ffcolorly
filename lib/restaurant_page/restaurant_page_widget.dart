@@ -1,4 +1,5 @@
 import '../backend/backend.dart';
+import '../create_post/create_post_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
@@ -20,6 +21,8 @@ class RestaurantPageWidget extends StatefulWidget {
 
 class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
     with TickerProviderStateMixin {
+  LatLng currentUserLocationValue;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'columnOnPageLoadAnimation': AnimationInfo(
       curve: Curves.easeIn,
@@ -28,7 +31,6 @@ class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
       fadeIn: true,
     ),
   };
-  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -38,10 +40,25 @@ class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
           .where((anim) => anim.trigger == AnimationTrigger.onPageLoad),
       this,
     );
+
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
   }
 
   @override
   Widget build(BuildContext context) {
+    if (currentUserLocationValue == null) {
+      return Center(
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: SpinKitFadingCircle(
+            color: Color(0xFFE5831D),
+            size: 50,
+          ),
+        ),
+      );
+    }
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: false,
@@ -791,7 +808,7 @@ class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
                                                         showLocation: true,
                                                         showCompass: false,
                                                         showMapToolbar: false,
-                                                        showTraffic: false,
+                                                        showTraffic: true,
                                                         centerMapOnMarkerTap:
                                                             true,
                                                       ),
@@ -829,6 +846,8 @@ class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
                                           children: [
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
                                               children: [
                                                 Row(
                                                   mainAxisSize:
@@ -851,185 +870,233 @@ class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
                                                     )
                                                   ],
                                                 ),
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  20, 20, 0, 0),
-                                                      child: Container(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        height: 150,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xFF101010),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(20),
+                                                StreamBuilder<
+                                                    List<RestaurantsRecord>>(
+                                                  stream:
+                                                      queryRestaurantsRecord(
+                                                    queryBuilder: (restaurantsRecord) =>
+                                                        restaurantsRecord.where(
+                                                            'rest_lat_long',
+                                                            isEqualTo:
+                                                                currentUserLocationValue
+                                                                    .toGeoPoint()),
+                                                  ),
+                                                  builder: (context, snapshot) {
+                                                    // Customize what your widget looks like when it's loading.
+                                                    if (!snapshot.hasData) {
+                                                      return Center(
+                                                        child: SizedBox(
+                                                          width: 50,
+                                                          height: 50,
+                                                          child:
+                                                              SpinKitFadingCircle(
+                                                            color: Color(
+                                                                0xFFE5831D),
+                                                            size: 50,
+                                                          ),
                                                         ),
-                                                        child: StreamBuilder<
-                                                            List<
-                                                                RestaurantsRecord>>(
-                                                          stream:
-                                                              queryRestaurantsRecord(),
-                                                          builder: (context,
-                                                              snapshot) {
-                                                            // Customize what your widget looks like when it's loading.
-                                                            if (!snapshot
-                                                                .hasData) {
-                                                              return Center(
-                                                                child: SizedBox(
-                                                                  width: 50,
-                                                                  height: 50,
-                                                                  child:
-                                                                      SpinKitDualRing(
-                                                                    color: Color(
-                                                                        0xFFE5831D),
-                                                                    size: 50,
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            List<RestaurantsRecord>
-                                                                listViewRestaurantsRecordList =
-                                                                snapshot.data;
-                                                            // Customize what your widget looks like with no query results.
-                                                            if (snapshot
-                                                                .data.isEmpty) {
-                                                              return Material(
-                                                                child:
-                                                                    Container(
-                                                                  height: 100,
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                        'No results.'),
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            }
-                                                            return ListView
-                                                                .builder(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .zero,
-                                                              scrollDirection:
-                                                                  Axis.horizontal,
-                                                              itemCount:
-                                                                  listViewRestaurantsRecordList
-                                                                      .length,
-                                                              itemBuilder: (context,
-                                                                  listViewIndex) {
-                                                                final listViewRestaurantsRecord =
-                                                                    listViewRestaurantsRecordList[
-                                                                        listViewIndex];
-                                                                return Padding(
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          20,
-                                                                          0),
-                                                                  child: Card(
-                                                                    clipBehavior:
-                                                                        Clip.antiAliasWithSaveLayer,
-                                                                    color: Colors
-                                                                        .black,
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              20),
-                                                                    ),
+                                                      );
+                                                    }
+                                                    List<RestaurantsRecord>
+                                                        rowRestaurantsRecordList =
+                                                        snapshot.data;
+                                                    // Customize what your widget looks like with no query results.
+                                                    if (snapshot.data.isEmpty) {
+                                                      return Material(
+                                                        child: Container(
+                                                          height: 100,
+                                                          child: Center(
+                                                            child: Text(
+                                                                'No results.'),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                    return Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: List.generate(
+                                                          rowRestaurantsRecordList
+                                                              .length,
+                                                          (rowIndex) {
+                                                        final rowRestaurantsRecord =
+                                                            rowRestaurantsRecordList[
+                                                                rowIndex];
+                                                        return Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(20,
+                                                                      20, 0, 0),
+                                                          child: Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            height: 150,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: Color(
+                                                                  0xFF101010),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          20),
+                                                            ),
+                                                            child: StreamBuilder<
+                                                                List<
+                                                                    RestaurantsRecord>>(
+                                                              stream:
+                                                                  queryRestaurantsRecord(),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                // Customize what your widget looks like when it's loading.
+                                                                if (!snapshot
+                                                                    .hasData) {
+                                                                  return Center(
                                                                     child:
-                                                                        Stack(
-                                                                      children: [
+                                                                        SizedBox(
+                                                                      width: 50,
+                                                                      height:
+                                                                          50,
+                                                                      child:
+                                                                          SpinKitFadingCircle(
+                                                                        color: Color(
+                                                                            0xFFE5831D),
+                                                                        size:
+                                                                            50,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                                List<RestaurantsRecord>
+                                                                    listViewRestaurantsRecordList =
+                                                                    snapshot
+                                                                        .data;
+                                                                // Customize what your widget looks like with no query results.
+                                                                if (snapshot
+                                                                    .data
+                                                                    .isEmpty) {
+                                                                  return Material(
+                                                                    child:
                                                                         Container(
-                                                                          width:
-                                                                              MediaQuery.of(context).size.width * 0.5,
-                                                                          height:
-                                                                              100,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            color:
-                                                                                Color(0xFF101010),
-                                                                          ),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            children: [
-                                                                              Image.network(
-                                                                                'https://picsum.photos/seed/717/600',
-                                                                                width: MediaQuery.of(context).size.width,
-                                                                                height: 100,
-                                                                                fit: BoxFit.cover,
+                                                                      height:
+                                                                          100,
+                                                                      child:
+                                                                          Center(
+                                                                        child: Text(
+                                                                            'No results.'),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }
+                                                                return ListView
+                                                                    .builder(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  scrollDirection:
+                                                                      Axis.horizontal,
+                                                                  itemCount:
+                                                                      listViewRestaurantsRecordList
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          listViewIndex) {
+                                                                    final listViewRestaurantsRecord =
+                                                                        listViewRestaurantsRecordList[
+                                                                            listViewIndex];
+                                                                    return Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              0,
+                                                                              0,
+                                                                              20,
+                                                                              0),
+                                                                      child:
+                                                                          Card(
+                                                                        clipBehavior:
+                                                                            Clip.antiAliasWithSaveLayer,
+                                                                        color: Colors
+                                                                            .black,
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(20),
+                                                                        ),
+                                                                        child:
+                                                                            Stack(
+                                                                          children: [
+                                                                            Container(
+                                                                              width: MediaQuery.of(context).size.width * 0.5,
+                                                                              height: 100,
+                                                                              decoration: BoxDecoration(
+                                                                                color: Color(0xFF101010),
                                                                               ),
-                                                                              Row(
+                                                                              child: Column(
                                                                                 mainAxisSize: MainAxisSize.max,
                                                                                 children: [
-                                                                                  Padding(
-                                                                                    padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-                                                                                    child: Text(
-                                                                                      'Texas Roadhouse',
-                                                                                      style: FlutterFlowTheme.subtitle2.override(
-                                                                                        fontFamily: 'Quicksand',
-                                                                                      ),
-                                                                                    ),
+                                                                                  Image.network(
+                                                                                    'https://picsum.photos/seed/717/600',
+                                                                                    width: MediaQuery.of(context).size.width,
+                                                                                    height: 100,
+                                                                                    fit: BoxFit.cover,
+                                                                                  ),
+                                                                                  Row(
+                                                                                    mainAxisSize: MainAxisSize.max,
+                                                                                    children: [
+                                                                                      Padding(
+                                                                                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+                                                                                        child: Text(
+                                                                                          'Texas Roadhouse',
+                                                                                          style: FlutterFlowTheme.subtitle2.override(
+                                                                                            fontFamily: 'Quicksand',
+                                                                                          ),
+                                                                                        ),
+                                                                                      )
+                                                                                    ],
                                                                                   )
                                                                                 ],
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              130,
-                                                                              10,
-                                                                              0,
-                                                                              0),
-                                                                          child:
-                                                                              Container(
-                                                                            width:
-                                                                                50,
-                                                                            height:
-                                                                                50,
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              color: FlutterFlowTheme.tertiaryColor,
-                                                                              borderRadius: BorderRadius.circular(99),
-                                                                            ),
-                                                                            child:
-                                                                                Align(
-                                                                              alignment: AlignmentDirectional(0, 0),
-                                                                              child: Text(
-                                                                                '3.9',
-                                                                                textAlign: TextAlign.center,
-                                                                                style: FlutterFlowTheme.bodyText1.override(
-                                                                                  fontFamily: 'Roboto',
-                                                                                  fontSize: 22,
-                                                                                ),
                                                                               ),
                                                                             ),
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                  ),
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(130, 10, 0, 0),
+                                                                              child: Container(
+                                                                                width: 50,
+                                                                                height: 50,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: FlutterFlowTheme.tertiaryColor,
+                                                                                  borderRadius: BorderRadius.circular(99),
+                                                                                ),
+                                                                                child: Align(
+                                                                                  alignment: AlignmentDirectional(0, 0),
+                                                                                  child: Text(
+                                                                                    '3.9',
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: FlutterFlowTheme.bodyText1.override(
+                                                                                      fontFamily: 'Roboto',
+                                                                                      fontSize: 22,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
                                                                 );
                                                               },
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }),
+                                                    );
+                                                  },
                                                 )
                                               ],
                                             )
@@ -1119,12 +1186,15 @@ class _RestaurantPageWidgetState extends State<RestaurantPageWidget>
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.6,
                         height: 50,
-                        decoration: BoxDecoration(
-                          color: Color(0x98000000),
-                        ),
+                        decoration: BoxDecoration(),
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CreatePostWidget(),
+                              ),
+                            );
                           },
                           text: 'Submit Review',
                           options: FFButtonOptions(

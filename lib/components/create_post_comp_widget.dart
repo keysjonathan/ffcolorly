@@ -1,41 +1,46 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
-import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_place_picker.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../flutter_flow/place.dart';
 import '../flutter_flow/upload_media.dart';
+import '../main.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreatePostCompWidget extends StatefulWidget {
-  CreatePostCompWidget({Key key}) : super(key: key);
+  CreatePostCompWidget({
+    Key key,
+    this.restaurantPick,
+  }) : super(key: key);
+
+  final DocumentReference restaurantPick;
 
   @override
   _CreatePostCompWidgetState createState() => _CreatePostCompWidgetState();
 }
 
 class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
-  String choiceChipsValue1;
-  String choiceChipsValue2;
-  String choiceChipsValue3;
-  String choiceChipsValue4;
-  String choiceChipsValue5;
-  String choiceChipsValue6;
   String uploadedFileUrl = '';
-  TextEditingController textController;
-  double ratingBarValue;
+  TextEditingController textController2;
+  TextEditingController textController1;
+  bool switchListTileValue1;
+  bool switchListTileValue2;
   var placePickerValue = FFPlace();
+  double ratingBarValue;
 
   @override
   void initState() {
     super.initState();
-    textController = TextEditingController();
+    textController1 = TextEditingController();
+    textController2 = TextEditingController();
   }
 
   @override
@@ -66,118 +71,142 @@ class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
             children: [
               Column(
                 mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 90,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Color(0x00FFFFFF),
+                      color: Color(0xFFEEEEEE),
                     ),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                      child: FlutterFlowChoiceChips(
-                        options: [ChipData('Diverse')],
-                        onChanged: (val) =>
-                            setState(() => choiceChipsValue1 = val),
-                        selectedChipStyle: ChipStyle(
-                          backgroundColor: FlutterFlowTheme.primaryColor,
-                          textStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Roboto',
-                            color: Colors.white,
+                    child: Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      color: Color(0xFFF5F5F5),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                                child: Container(
+                                  width: 35,
+                                  height: 35,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Image.network(
+                                    textController1.text,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          iconColor: Colors.white,
-                          iconSize: 18,
-                          elevation: 4,
-                        ),
-                        unselectedChipStyle: ChipStyle(
-                          backgroundColor: Colors.white,
-                          textStyle: FlutterFlowTheme.bodyText2.override(
-                            fontFamily: 'Quicksand',
-                            color: FlutterFlowTheme.customColor2,
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 200,
+                                  decoration: BoxDecoration(),
+                                  child: TextFormField(
+                                    controller: textController1,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      labelText: 'Restaurant',
+                                      labelStyle:
+                                          FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Roboto',
+                                        color: Colors.black,
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(4.0),
+                                          topRight: Radius.circular(4.0),
+                                        ),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0x00000000),
+                                          width: 1,
+                                        ),
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(4.0),
+                                          topRight: Radius.circular(4.0),
+                                        ),
+                                      ),
+                                    ),
+                                    style: FlutterFlowTheme.bodyText1.override(
+                                      fontFamily: 'Roboto',
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        width: 200,
+                        decoration: BoxDecoration(),
+                        child: SwitchListTile.adaptive(
+                          value: switchListTileValue1 ??= true,
+                          onChanged: (newValue) =>
+                              setState(() => switchListTileValue1 = newValue),
+                          title: Text(
+                            'Diverse',
+                            style: FlutterFlowTheme.title3.override(
+                              fontFamily: 'Roboto',
+                            ),
                           ),
-                          iconColor: Color(0xFF262D34),
-                          iconSize: 18,
-                          elevation: 4,
+                          tileColor: Color(0xFFF5F5F5),
+                          dense: true,
+                          controlAffinity: ListTileControlAffinity.leading,
                         ),
-                        chipSpacing: 10,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 90,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0x00EEEEEE),
-                    ),
-                    child: FlutterFlowChoiceChips(
-                      options: [ChipData('Inclusive')],
-                      onChanged: (val) =>
-                          setState(() => choiceChipsValue2 = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Roboto',
-                          color: Colors.white,
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Container(
+                        width: 200,
+                        decoration: BoxDecoration(),
+                        child: SwitchListTile.adaptive(
+                          value: switchListTileValue2 ??= true,
+                          onChanged: (newValue) =>
+                              setState(() => switchListTileValue2 = newValue),
+                          title: Text(
+                            'Inclusive',
+                            style: FlutterFlowTheme.title3.override(
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          tileColor: Color(0xFFF5F5F5),
+                          dense: true,
+                          controlAffinity: ListTileControlAffinity.leading,
                         ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Quicksand',
-                          color: FlutterFlowTheme.customColor2,
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 10,
-                    ),
-                  )
-                ],
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 120,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0x00EEEEEE),
-                    ),
-                    child: FlutterFlowChoiceChips(
-                      options: [ChipData('Good Food')],
-                      onChanged: (val) =>
-                          setState(() => choiceChipsValue3 = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Roboto',
-                          color: Colors.white,
-                        ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Quicksand',
-                          color: FlutterFlowTheme.customColor2,
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 10,
-                    ),
+                      )
+                    ],
                   )
                 ],
               )
@@ -186,116 +215,39 @@ class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 80,
-                    height: 50,
-                    decoration: BoxDecoration(),
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-                      child: FlutterFlowChoiceChips(
-                        options: [ChipData('Clean')],
-                        onChanged: (val) =>
-                            setState(() => choiceChipsValue4 = val),
-                        selectedChipStyle: ChipStyle(
-                          backgroundColor: FlutterFlowTheme.primaryColor,
-                          textStyle: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Roboto',
-                            color: Colors.white,
-                          ),
-                          iconColor: Colors.white,
-                          iconSize: 18,
-                          elevation: 4,
-                        ),
-                        unselectedChipStyle: ChipStyle(
-                          backgroundColor: Colors.white,
-                          textStyle: FlutterFlowTheme.bodyText2.override(
-                            fontFamily: 'Quicksand',
-                            color: FlutterFlowTheme.customColor2,
-                          ),
-                          iconColor: Color(0xFF262D34),
-                          iconSize: 18,
-                          elevation: 4,
-                        ),
-                        chipSpacing: 10,
-                      ),
-                    ),
-                  )
-                ],
+              Text(
+                'Hello World',
+                style: FlutterFlowTheme.bodyText1.override(
+                  fontFamily: 'Roboto',
+                  color: Colors.black,
+                ),
               ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 165,
-                    height: 50,
-                    decoration: BoxDecoration(),
-                    child: FlutterFlowChoiceChips(
-                      options: [ChipData('Highly Reccommend')],
-                      onChanged: (val) =>
-                          setState(() => choiceChipsValue5 = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Roboto',
-                          color: Colors.white,
-                        ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Quicksand',
-                          color: FlutterFlowTheme.customColor2,
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 10,
-                    ),
-                  )
-                ],
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 110,
-                    height: 50,
-                    decoration: BoxDecoration(),
-                    child: FlutterFlowChoiceChips(
-                      options: [ChipData('Comfortable')],
-                      onChanged: (val) =>
-                          setState(() => choiceChipsValue6 = val),
-                      selectedChipStyle: ChipStyle(
-                        backgroundColor: FlutterFlowTheme.primaryColor,
-                        textStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Roboto',
-                          color: Colors.white,
-                        ),
-                        iconColor: Colors.white,
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      unselectedChipStyle: ChipStyle(
-                        backgroundColor: Colors.white,
-                        textStyle: FlutterFlowTheme.bodyText2.override(
-                          fontFamily: 'Quicksand',
-                          color: FlutterFlowTheme.customColor2,
-                        ),
-                        iconColor: Color(0xFF262D34),
-                        iconSize: 18,
-                        elevation: 4,
-                      ),
-                      chipSpacing: 10,
-                    ),
-                  )
-                ],
+              FlutterFlowPlacePicker(
+                iOSGoogleMapsApiKey: 'AIzaSyBH1fZaBJ0aBUx4Y6fjsVaEs6cD9FhYgow',
+                androidGoogleMapsApiKey:
+                    'AIzaSyB8YLpQ-pVGaEOSZEfaoDBbniyzNHREMP0',
+                webGoogleMapsApiKey: 'AIzaSyCI7LeCn7jPdiTPwKiLhn6xMxPlcLevReM',
+                onSelect: (place) => setState(() => placePickerValue = place),
+                defaultText: 'Select Location',
+                icon: Icon(
+                  Icons.place,
+                  color: Colors.white,
+                  size: 16,
+                ),
+                buttonOptions: FFButtonOptions(
+                  width: 200,
+                  height: 40,
+                  color: FlutterFlowTheme.primaryColor,
+                  textStyle: FlutterFlowTheme.subtitle2.override(
+                    fontFamily: 'Quicksand',
+                    color: Colors.white,
+                  ),
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: 12,
+                ),
               )
             ],
           ),
@@ -318,6 +270,7 @@ class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
                             final selectedMedia =
                                 await selectMediaWithSourceBottomSheet(
                               context: context,
+                              isVideo: true,
                             );
                             if (selectedMedia != null &&
                                 validateFileFormat(
@@ -369,7 +322,7 @@ class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
                           children: [
                             Expanded(
                               child: TextFormField(
-                                controller: textController,
+                                controller: textController2,
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   hintText: 'Share your experience....',
@@ -432,7 +385,7 @@ class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
                 color: Color(0xFFFFC00E),
               ),
               direction: Axis.horizontal,
-              initialRating: 3,
+              initialRating: 0,
               unratedColor: Color(0xFF9E9E9E),
               itemCount: 5,
               itemSize: 40,
@@ -440,75 +393,29 @@ class _CreatePostCompWidgetState extends State<CreatePostCompWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
-            child: FutureBuilder<List<RestaurantsRecord>>(
-              future: RestaurantsRecord.search(
-                location: getCurrentUserLocation(),
-              ),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: SpinKitDualRing(
-                        color: Color(0xFFE5831D),
-                        size: 50,
-                      ),
-                    ),
-                  );
-                }
-                List<RestaurantsRecord> placePickerRestaurantsRecordList =
-                    snapshot.data;
-                // Customize what your widget looks like with no search results.
-                if (snapshot.data.isEmpty) {
-                  return Container(
-                    height: 100,
-                    child: Center(
-                      child: Text('No results.'),
-                    ),
-                  );
-                }
-                return FlutterFlowPlacePicker(
-                  iOSGoogleMapsApiKey:
-                      '883261131668-itrdu1sc68o6t6iknm47m3bcdsro63v4.apps.googleusercontent.com',
-                  androidGoogleMapsApiKey:
-                      '883261131668-7e78a18qe34d4u93meumi3niurarvrek.apps.googleusercontent.com',
-                  webGoogleMapsApiKey:
-                      '883261131668-urqunqqv9aitkrs1h9umuhdd27dguni3.apps.googleusercontent.com',
-                  onSelect: (place) => setState(() => placePickerValue = place),
-                  defaultText: 'Tag Restaurant',
-                  icon: Icon(
-                    Icons.place,
-                    color: Color(0xFF95A1AC),
-                    size: 16,
-                  ),
-                  buttonOptions: FFButtonOptions(
-                    width: double.infinity,
-                    height: 50,
-                    color: Colors.white,
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'Lexend Deca',
-                      color: Color(0xFF95A1AC),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    borderSide: BorderSide(
-                      color: Color(0xFFDBE2E7),
-                      width: 2,
-                    ),
-                    borderRadius: 8,
-                  ),
-                );
-              },
-            ),
-          ),
-          Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 20),
             child: FFButtonWidget(
-              onPressed: () {
-                print('Button pressed ...');
+              onPressed: () async {
+                final postsCreateData = createPostsRecordData(
+                  videoUrl: uploadedFileUrl,
+                  descritpion: textController2.text,
+                  userRating: ratingBarValue,
+                  user: currentUserReference,
+                  username: currentUserDisplayName,
+                  userProfilePic: currentUserPhoto,
+                  createdAt: getCurrentTimestamp,
+                  restaurantName: '',
+                );
+                await PostsRecord.collection.doc().set(postsCreateData);
+                await Navigator.push(
+                  context,
+                  PageTransition(
+                    type: PageTransitionType.topToBottom,
+                    duration: Duration(milliseconds: 2),
+                    reverseDuration: Duration(milliseconds: 2),
+                    child: NavBarPage(initialPage: 'Home'),
+                  ),
+                );
               },
               text: 'Create Post',
               options: FFButtonOptions(

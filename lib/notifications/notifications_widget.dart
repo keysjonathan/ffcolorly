@@ -24,7 +24,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color(0xFF090F13),
+        backgroundColor: Colors.black,
         automaticallyImplyLeading: false,
         title: Text(
           'Notifications',
@@ -72,7 +72,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                   child: SizedBox(
                     width: 50,
                     height: 50,
-                    child: SpinKitDualRing(
+                    child: SpinKitFadingCircle(
                       color: Color(0xFFE5831D),
                       size: 50,
                     ),

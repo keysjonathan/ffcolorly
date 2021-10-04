@@ -31,9 +31,6 @@ abstract class RestaurantsRecord
   String get hours;
 
   @nullable
-  String get categories;
-
-  @nullable
   String get tags;
 
   @nullable
@@ -75,6 +72,20 @@ abstract class RestaurantsRecord
   String get restDescription;
 
   @nullable
+  @BuiltValueField(wireName: 'post_ref')
+  DocumentReference get postRef;
+
+  @nullable
+  String get website;
+
+  @nullable
+  @BuiltValueField(wireName: 'rest_slogan')
+  String get restSlogan;
+
+  @nullable
+  BuiltList<double> get categories;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -84,7 +95,6 @@ abstract class RestaurantsRecord
     ..featuredImage = ''
     ..logo = ''
     ..hours = ''
-    ..categories = ''
     ..tags = ''
     ..bookmarked = false
     ..diverseTag = false
@@ -95,7 +105,10 @@ abstract class RestaurantsRecord
     ..priceRange = ''
     ..reviews = 0
     ..rating = 0
-    ..restDescription = '';
+    ..restDescription = ''
+    ..website = ''
+    ..restSlogan = ''
+    ..categories = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('restaurants');
@@ -112,7 +125,6 @@ abstract class RestaurantsRecord
           ..featuredImage = snapshot.data['Featured_image']
           ..logo = snapshot.data['Logo']
           ..hours = snapshot.data['hours']
-          ..categories = snapshot.data['categories']
           ..tags = snapshot.data['tags']
           ..bookmarked = snapshot.data['bookmarked']
           ..diverseTag = snapshot.data['diverse_tag']
@@ -128,6 +140,10 @@ abstract class RestaurantsRecord
           ..reviews = snapshot.data['reviews']
           ..rating = snapshot.data['rating']
           ..restDescription = snapshot.data['rest_description']
+          ..postRef = safeGet(() => toRef(snapshot.data['post_ref']))
+          ..website = snapshot.data['website']
+          ..restSlogan = snapshot.data['rest_slogan']
+          ..categories = safeGet(() => ListBuilder(snapshot.data['categories']))
           ..reference = RestaurantsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -162,7 +178,6 @@ Map<String, dynamic> createRestaurantsRecordData({
   String featuredImage,
   String logo,
   String hours,
-  String categories,
   String tags,
   bool bookmarked,
   bool diverseTag,
@@ -175,6 +190,9 @@ Map<String, dynamic> createRestaurantsRecordData({
   int reviews,
   int rating,
   String restDescription,
+  DocumentReference postRef,
+  String website,
+  String restSlogan,
 }) =>
     serializers.toFirestore(
         RestaurantsRecord.serializer,
@@ -184,7 +202,6 @@ Map<String, dynamic> createRestaurantsRecordData({
           ..featuredImage = featuredImage
           ..logo = logo
           ..hours = hours
-          ..categories = categories
           ..tags = tags
           ..bookmarked = bookmarked
           ..diverseTag = diverseTag
@@ -196,4 +213,8 @@ Map<String, dynamic> createRestaurantsRecordData({
           ..priceRange = priceRange
           ..reviews = reviews
           ..rating = rating
-          ..restDescription = restDescription));
+          ..restDescription = restDescription
+          ..postRef = postRef
+          ..website = website
+          ..restSlogan = restSlogan
+          ..categories = null));
