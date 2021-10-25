@@ -6,14 +6,15 @@ import 'auth/firebase_user_provider.dart';
 import 'auth/auth_util.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
-import 'package:colorly_app/login_sign_up/login_sign_up_widget.dart';
+import 'package:colorly_app/login/login_widget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'home/home_widget.dart';
+import 'new_home_page/new_home_page_widget.dart';
 import 'explore/explore_widget.dart';
-import 'notifications/notifications_widget.dart';
-import 'profile_page/profile_page_widget.dart';
+import 'chat_main/chat_main_widget.dart';
+import 'all_users/all_users_widget.dart';
+import 'user_profile/user_profile_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,19 +61,16 @@ class _MyAppState extends State<MyApp> {
       home: initialUser == null
           ? Container(
               color: Colors.transparent,
-              child: Center(
-                child: Builder(
-                  builder: (context) => Image.asset(
-                    'assets/images/1_Splash_1.png',
-                    width: MediaQuery.of(context).size.width,
-                    fit: BoxFit.fitWidth,
-                  ),
+              child: Builder(
+                builder: (context) => Image.asset(
+                  'assets/images/1_Splash.png',
+                  fit: BoxFit.cover,
                 ),
               ),
             )
           : currentUser.loggedIn
               ? NavBarPage()
-              : LoginSignUpWidget(),
+              : LoginWidget(),
     );
   }
 }
@@ -88,7 +86,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'Home';
+  String _currentPage = 'newHomePage';
 
   @override
   void initState() {
@@ -99,10 +97,11 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'Home': HomeWidget(),
-      'Explore': ExploreWidget(),
-      'Notifications': NotificationsWidget(),
-      'ProfilePage': ProfilePageWidget(),
+      'newHomePage': NewHomePageWidget(),
+      'explore': ExploreWidget(),
+      'chatMain': ChatMainWidget(),
+      'allUsers': AllUsersWidget(),
+      'userProfile': UserProfileWidget(),
     };
     return Scaffold(
       body: tabs[_currentPage],
@@ -111,46 +110,50 @@ class _NavBarPageState extends State<NavBarPage> {
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home_outlined,
-              size: 24,
+              size: 28,
             ),
             label: 'Home',
+            tooltip: '',
           ),
           BottomNavigationBarItem(
             icon: FaIcon(
               FontAwesomeIcons.searchLocation,
-              size: 16,
+              size: 20,
             ),
-            label: 'Home',
+            label: 'Explore',
+            tooltip: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.chat_bubble_outline,
+              Icons.message_rounded,
+              size: 22,
+            ),
+            label: 'Chat',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.users,
               size: 24,
             ),
-            activeIcon: Icon(
-              Icons.chat_bubble_rounded,
-              size: 24,
-            ),
-            label: 'Chats',
+            label: 'Users',
+            tooltip: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person_outline_sharp,
-              size: 24,
-            ),
-            activeIcon: Icon(
               Icons.person,
               size: 24,
             ),
             label: 'Profile',
+            tooltip: '',
           )
         ],
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF060606),
         currentIndex: tabs.keys.toList().indexOf(_currentPage),
         selectedItemColor: Color(0xFFE5831D),
-        unselectedItemColor: Color(0xB9FFFFFF),
+        unselectedItemColor: Color(0xFFA4A4A4),
         onTap: (i) => setState(() => _currentPage = tabs.keys.toList()[i]),
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
       ),

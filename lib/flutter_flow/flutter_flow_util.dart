@@ -38,7 +38,14 @@ Future launchURL(String url) async {
 
 DateTime get getCurrentTimestamp => DateTime.now();
 
-bool get isIos => !kIsWeb && Platform.isIOS;
+extension DateTimeComparisonOperators on DateTime {
+  bool operator <(DateTime other) => isBefore(other);
+  bool operator >(DateTime other) => isAfter(other);
+  bool operator <=(DateTime other) => this < other || isAtSameMomentAs(other);
+  bool operator >=(DateTime other) => this > other || isAtSameMomentAs(other);
+}
+
+bool get isAndroid => !kIsWeb && Platform.isAndroid;
 
 LatLng cachedUserLocation;
 Future<LatLng> getCurrentUserLocation(

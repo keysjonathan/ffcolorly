@@ -10,79 +10,91 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   static Serializer<UsersRecord> get serializer => _$usersRecordSerializer;
 
   @nullable
-  String get email;
-
-  @nullable
-  String get username;
+  String get uid;
 
   @nullable
   @BuiltValueField(wireName: 'display_name')
   String get displayName;
 
   @nullable
-  @BuiltValueField(wireName: 'profile_pic_url')
-  String get profilePicUrl;
-
-  @nullable
-  String get bio;
-
-  @nullable
-  String get website;
-
-  @nullable
-  @BuiltValueField(wireName: 'created_time')
-  DateTime get createdTime;
+  String get username;
 
   @nullable
   @BuiltValueField(wireName: 'photo_url')
   String get photoUrl;
 
   @nullable
-  String get uid;
+  String get email;
 
   @nullable
   @BuiltValueField(wireName: 'phone_number')
   String get phoneNumber;
 
   @nullable
-  @BuiltValueField(wireName: 'facebook_url')
-  String get facebookUrl;
+  @BuiltValueField(wireName: 'created_time')
+  DateTime get createdTime;
+
+  @nullable
+  String get bio;
 
   @nullable
   @BuiltValueField(wireName: 'instagram_url')
   String get instagramUrl;
 
   @nullable
+  @BuiltValueField(wireName: 'facebook_url')
+  String get facebookUrl;
+
+  @nullable
   @BuiltValueField(wireName: 'tiktok_url')
   String get tiktokUrl;
 
   @nullable
-  @BuiltValueField(wireName: 'following_true')
-  bool get followingTrue;
+  String get website;
 
   @nullable
-  @BuiltValueField(wireName: 'rest_slogan')
-  String get restSlogan;
+  bool get isRestaurant;
+
+  @nullable
+  DocumentReference get restaurantConnect;
+
+  @nullable
+  BuiltList<DocumentReference> get followers;
+
+  @nullable
+  BuiltList<DocumentReference> get following;
+
+  @nullable
+  BuiltList<int> get flavor;
+
+  @nullable
+  BuiltList<DocumentReference> get restConnections;
+
+  @nullable
+  int get flavorTotal;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
   static void _initializeBuilder(UsersRecordBuilder builder) => builder
-    ..email = ''
-    ..username = ''
-    ..displayName = ''
-    ..profilePicUrl = ''
-    ..bio = ''
-    ..website = ''
-    ..photoUrl = ''
     ..uid = ''
+    ..displayName = ''
+    ..username = ''
+    ..photoUrl = ''
+    ..email = ''
     ..phoneNumber = ''
-    ..facebookUrl = ''
+    ..bio = ''
     ..instagramUrl = ''
+    ..facebookUrl = ''
     ..tiktokUrl = ''
-    ..followingTrue = false
-    ..restSlogan = '';
+    ..website = ''
+    ..isRestaurant = false
+    ..followers = ListBuilder()
+    ..following = ListBuilder()
+    ..flavor = ListBuilder()
+    ..restConnections = ListBuilder()
+    ..flavorTotal = 0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -90,6 +102,50 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   static Stream<UsersRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
+  static UsersRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) => UsersRecord(
+        (c) => c
+          ..uid = snapshot.data['uid']
+          ..displayName = snapshot.data['display_name']
+          ..username = snapshot.data['username']
+          ..photoUrl = snapshot.data['photo_url']
+          ..email = snapshot.data['email']
+          ..phoneNumber = snapshot.data['phone_number']
+          ..createdTime = safeGet(() => DateTime.fromMillisecondsSinceEpoch(
+              snapshot.data['created_time']))
+          ..bio = snapshot.data['bio']
+          ..instagramUrl = snapshot.data['instagram_url']
+          ..facebookUrl = snapshot.data['facebook_url']
+          ..tiktokUrl = snapshot.data['tiktok_url']
+          ..website = snapshot.data['website']
+          ..isRestaurant = snapshot.data['isRestaurant']
+          ..restaurantConnect =
+              safeGet(() => toRef(snapshot.data['restaurantConnect']))
+          ..followers = safeGet(() =>
+              ListBuilder(snapshot.data['followers'].map((s) => toRef(s))))
+          ..following = safeGet(() =>
+              ListBuilder(snapshot.data['following'].map((s) => toRef(s))))
+          ..flavor = safeGet(() => ListBuilder(snapshot.data['flavor']))
+          ..restConnections = safeGet(() => ListBuilder(
+              snapshot.data['restConnections'].map((s) => toRef(s))))
+          ..flavorTotal = snapshot.data['flavorTotal']
+          ..reference = UsersRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<UsersRecord>> search(
+          {String term,
+          FutureOr<LatLng> location,
+          int maxResults,
+          double searchRadiusMeters}) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'users',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
 
   UsersRecord._();
   factory UsersRecord([void Function(UsersRecordBuilder) updates]) =
@@ -102,37 +158,41 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
 }
 
 Map<String, dynamic> createUsersRecordData({
-  String email,
-  String username,
-  String displayName,
-  String profilePicUrl,
-  String bio,
-  String website,
-  DateTime createdTime,
-  String photoUrl,
   String uid,
+  String displayName,
+  String username,
+  String photoUrl,
+  String email,
   String phoneNumber,
-  String facebookUrl,
+  DateTime createdTime,
+  String bio,
   String instagramUrl,
+  String facebookUrl,
   String tiktokUrl,
-  bool followingTrue,
-  String restSlogan,
+  String website,
+  bool isRestaurant,
+  DocumentReference restaurantConnect,
+  int flavorTotal,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
         UsersRecord((u) => u
-          ..email = email
-          ..username = username
-          ..displayName = displayName
-          ..profilePicUrl = profilePicUrl
-          ..bio = bio
-          ..website = website
-          ..createdTime = createdTime
-          ..photoUrl = photoUrl
           ..uid = uid
+          ..displayName = displayName
+          ..username = username
+          ..photoUrl = photoUrl
+          ..email = email
           ..phoneNumber = phoneNumber
-          ..facebookUrl = facebookUrl
+          ..createdTime = createdTime
+          ..bio = bio
           ..instagramUrl = instagramUrl
+          ..facebookUrl = facebookUrl
           ..tiktokUrl = tiktokUrl
-          ..followingTrue = followingTrue
-          ..restSlogan = restSlogan));
+          ..website = website
+          ..isRestaurant = isRestaurant
+          ..restaurantConnect = restaurantConnect
+          ..followers = null
+          ..following = null
+          ..flavor = null
+          ..restConnections = null
+          ..flavorTotal = flavorTotal));

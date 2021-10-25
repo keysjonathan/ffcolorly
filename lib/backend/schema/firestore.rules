@@ -23,12 +23,6 @@ service cloud.firestore {
 
     // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
     // security rules for this collection before publishing your app.
-    match /follows/{id} {
-      allow read, write: if true;
-    }
-
-    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
-    // security rules for this collection before publishing your app.
     match /posts/{id} {
       allow read, write: if true;
     }
@@ -41,7 +35,31 @@ service cloud.firestore {
 
     // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
     // security rules for this collection before publishing your app.
-    match /posts2/{id} {
+    match /stories/{id} {
+      allow read, write: if true;
+    }
+
+    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
+    // security rules for this collection before publishing your app.
+    match /postComments/{id} {
+      allow read, write: if true;
+    }
+
+    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
+    // security rules for this collection before publishing your app.
+    match /storyComments/{id} {
+      allow read, write: if true;
+    }
+
+    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
+    // security rules for this collection before publishing your app.
+    match /friends/{id} {
+      allow read, write: if true;
+    }
+
+    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
+    // security rules for this collection before publishing your app.
+    match /statistics/{id} {
       allow read, write: if true;
     }
   }

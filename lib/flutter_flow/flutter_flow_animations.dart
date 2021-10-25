@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 enum AnimationTrigger {
   onPageLoad,
+  onActionTrigger,
 }
 
 class AnimationInfo {
@@ -29,21 +30,34 @@ class AnimationInfo {
   CurvedAnimation curvedAnimation;
 }
 
-void startAnimations(Iterable<AnimationInfo> animations, TickerProvider vsync) {
-  animations.forEach((animation) {
-    animation.curvedAnimation = CurvedAnimation(
-      parent: AnimationController(
-        duration: Duration(milliseconds: animation.duration),
-        vsync: vsync,
-      ),
-      curve: animation.curve,
-    );
+void createAnimation(AnimationInfo animation, TickerProvider vsync) {
+  animation.curvedAnimation = CurvedAnimation(
+    parent: AnimationController(
+      duration: Duration(milliseconds: animation.duration),
+      vsync: vsync,
+    ),
+    curve: animation.curve,
+  );
+}
 
-    Future.delayed(
+void startPageLoadAnimations(
+    Iterable<AnimationInfo> animations, TickerProvider vsync) {
+  animations.forEach((animation) async {
+    createAnimation(animation, vsync);
+    await Future.delayed(
       Duration(milliseconds: animation.delay),
       () => (animation.curvedAnimation.parent as AnimationController)
           .forward(from: 0.0),
     );
+  });
+}
+
+void setupTriggerAnimations(
+    Iterable<AnimationInfo> animations, TickerProvider vsync) {
+  animations.forEach((animation) {
+    createAnimation(animation, vsync);
+    (animation.curvedAnimation.parent as AnimationController)
+        .forward(from: 1.0);
   });
 }
 

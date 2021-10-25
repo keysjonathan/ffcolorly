@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'lat_lng.dart' as latlng;
 
+export 'dart:async' show Completer;
 export 'package:google_maps_flutter/google_maps_flutter.dart' hide LatLng;
 export 'lat_lng.dart' show LatLng;
 
@@ -38,6 +39,7 @@ class FlutterFlowMarker {
 
 class FlutterFlowGoogleMap extends StatefulWidget {
   const FlutterFlowGoogleMap({
+    this.controller,
     this.onCameraIdle,
     this.initialLocation,
     this.markers = const [],
@@ -56,6 +58,7 @@ class FlutterFlowGoogleMap extends StatefulWidget {
     Key key,
   }) : super(key: key);
 
+  final Completer<GoogleMapController> controller;
   final Function(latlng.LatLng) onCameraIdle;
   final latlng.LatLng initialLocation;
   final Iterable<FlutterFlowMarker> markers;
@@ -81,13 +84,17 @@ class _FlutterFlowGoogleMapState extends State<FlutterFlowGoogleMap> {
   LatLng get initialPosition =>
       widget.initialLocation?.toGoogleMaps() ?? const LatLng(0.0, 0.0);
 
-  final _controller = Completer<GoogleMapController>();
+  Completer<GoogleMapController> _controller;
   LatLng currentMapCenter;
+
+  void onCameraIdle() =>
+      () => widget.onCameraIdle?.call(currentMapCenter.toLatLng());
 
   @override
   void initState() {
     super.initState();
     currentMapCenter = initialPosition;
+    _controller = widget.controller ?? Completer<GoogleMapController>();
   }
 
   @override
@@ -98,8 +105,7 @@ class _FlutterFlowGoogleMapState extends State<FlutterFlowGoogleMap> {
             _controller.complete(controller);
             await controller.setMapStyle(googleMapStyleStrings[widget.style]);
           },
-          onCameraIdle: () =>
-              widget.onCameraIdle?.call(currentMapCenter.toLatLng()),
+          onCameraIdle: onCameraIdle,
           onCameraMove: (position) => currentMapCenter = position.target,
           initialCameraPosition: CameraPosition(
             target: initialPosition,
@@ -126,7 +132,8 @@ class _FlutterFlowGoogleMapState extends State<FlutterFlowGoogleMap> {
                       await controller.animateCamera(
                         CameraUpdate.newLatLng(m.location.toGoogleMaps()),
                       );
-                      widget.onCameraIdle?.call(m.location);
+                      currentMapCenter = m.location.toGoogleMaps();
+                      onCameraIdle();
                     }
                   },
                 ),

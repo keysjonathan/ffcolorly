@@ -1,6 +1,7 @@
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,13 +16,14 @@ class OnboardingWidget extends StatefulWidget {
 
 class _OnboardingWidgetState extends State<OnboardingWidget> {
   PageController pageViewController;
+  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: Color(0xFF14181B),
+      backgroundColor: FlutterFlowTheme.primaryDark,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -70,7 +72,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 0, 0, 20),
                                       child: Image.asset(
-                                        'assets/images/onboarding_1.png',
+                                        'assets/images/pink_donut.png',
                                         width: 350,
                                         height: 300,
                                         fit: BoxFit.fitWidth,
@@ -86,13 +88,13 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Watch Foodies',
+                                          'Watch Video Reviews',
                                           textAlign: TextAlign.center,
                                           style:
                                               FlutterFlowTheme.title1.override(
                                             fontFamily: 'Lexend Deca',
                                             color: Colors.white,
-                                            fontSize: 32,
+                                            fontSize: 28,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -108,7 +110,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Find amazing classic books in our library.',
+                                          'See drool-worthy reviews of local eats. Donut forget to leave a little flavor!',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.subtitle2
                                               .override(
@@ -137,15 +139,11 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 20),
-                                      child: Image.asset(
-                                        'assets/images/onboarding_2.png',
-                                        width: 300,
-                                        height: 300,
-                                        fit: BoxFit.fitWidth,
-                                      ),
+                                    Image.asset(
+                                      'assets/images/tacos.png',
+                                      width: 350,
+                                      height: 300,
+                                      fit: BoxFit.fitWidth,
                                     )
                                   ],
                                 ),
@@ -157,13 +155,13 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Search Restaurants',
+                                          'Be Social',
                                           textAlign: TextAlign.center,
                                           style:
                                               FlutterFlowTheme.title1.override(
                                             fontFamily: 'Lexend Deca',
                                             color: Colors.white,
-                                            fontSize: 32,
+                                            fontSize: 28,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -179,7 +177,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Buy and view all your favorite books you find in this library.',
+                                          'Taco bout it! Socilaize with friends, followers, family, and restaurants within the app.',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.subtitle2
                                               .override(
@@ -208,15 +206,11 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 30, 0, 30),
-                                      child: Image.asset(
-                                        'assets/images/onboarding_3.png',
-                                        width: 300,
-                                        height: 250,
-                                        fit: BoxFit.fitWidth,
-                                      ),
+                                    Image.asset(
+                                      'assets/images/dim_sum.png',
+                                      width: 350,
+                                      height: 300,
+                                      fit: BoxFit.fitWidth,
                                     )
                                   ],
                                 ),
@@ -228,7 +222,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Connect With Friends',
+                                          'Find Restaurants',
                                           textAlign: TextAlign.center,
                                           style:
                                               FlutterFlowTheme.title1.override(
@@ -250,7 +244,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                     children: [
                                       Expanded(
                                         child: Text(
-                                          'Keep track of all your purchases that you have made, want to trade books in? Go ahead and list them for exchange.',
+                                          'Search near, far, and Dim Sum for the best restaurants in town.',
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.subtitle2
                                               .override(
@@ -310,34 +304,49 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                  child: FFButtonWidget(
-                    onPressed: () async {
-                      await pageViewController.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
-                    text: 'Continue',
-                    options: FFButtonOptions(
-                      width: 200,
-                      height: 50,
-                      color: Color(0xFF262D34),
-                      textStyle: FlutterFlowTheme.subtitle1.override(
-                        fontFamily: 'Lexend Deca',
-                        color: FlutterFlowTheme.primaryColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          setState(() => _loadingButton = true);
+                          try {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    NavBarPage(initialPage: 'newHomePage'),
+                              ),
+                            );
+                          } finally {
+                            setState(() => _loadingButton = false);
+                          }
+                        },
+                        text: 'Skip',
+                        options: FFButtonOptions(
+                          width: 100,
+                          height: 50,
+                          color: Color(0xFF2D2D2D),
+                          textStyle: FlutterFlowTheme.subtitle1.override(
+                            fontFamily: 'Lexend Deca',
+                            color: FlutterFlowTheme.tertiaryColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          elevation: 2,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                          borderRadius: 8,
+                        ),
+                        loading: _loadingButton,
                       ),
-                      elevation: 2,
-                      borderSide: BorderSide(
-                        color: Colors.transparent,
-                        width: 1,
-                      ),
-                      borderRadius: 8,
-                    ),
-                  ),
+                    )
+                  ],
                 )
               ],
             ),

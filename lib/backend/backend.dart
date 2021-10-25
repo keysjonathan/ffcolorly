@@ -5,12 +5,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 
 import 'schema/users_record.dart';
-import 'schema/follows_record.dart';
 import 'schema/posts_record.dart';
 import 'schema/restaurants_record.dart';
+import 'schema/stories_record.dart';
+import 'schema/post_comments_record.dart';
+import 'schema/story_comments_record.dart';
+import 'schema/friends_record.dart';
 import 'schema/chats_record.dart';
 import 'schema/chat_messages_record.dart';
-import 'schema/posts2_record.dart';
+import 'schema/statistics_record.dart';
 import 'schema/serializers.dart';
 
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,25 +21,21 @@ export 'schema/index.dart';
 export 'schema/serializers.dart';
 
 export 'schema/users_record.dart';
-export 'schema/follows_record.dart';
 export 'schema/posts_record.dart';
 export 'schema/restaurants_record.dart';
+export 'schema/stories_record.dart';
+export 'schema/post_comments_record.dart';
+export 'schema/story_comments_record.dart';
+export 'schema/friends_record.dart';
 export 'schema/chats_record.dart';
 export 'schema/chat_messages_record.dart';
-export 'schema/posts2_record.dart';
+export 'schema/statistics_record.dart';
 
 Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollection(UsersRecord.collection, UsersRecord.serializer,
-        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
-
-Stream<List<FollowsRecord>> queryFollowsRecord(
-        {Query Function(Query) queryBuilder,
-        int limit = -1,
-        bool singleRecord = false}) =>
-    queryCollection(FollowsRecord.collection, FollowsRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<PostsRecord>> queryPostsRecord(
@@ -51,6 +50,36 @@ Stream<List<RestaurantsRecord>> queryRestaurantsRecord(
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollection(RestaurantsRecord.collection, RestaurantsRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<StoriesRecord>> queryStoriesRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(StoriesRecord.collection, StoriesRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<PostCommentsRecord>> queryPostCommentsRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(
+        PostCommentsRecord.collection, PostCommentsRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<StoryCommentsRecord>> queryStoryCommentsRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(
+        StoryCommentsRecord.collection, StoryCommentsRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<FriendsRecord>> queryFriendsRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(FriendsRecord.collection, FriendsRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<ChatsRecord>> queryChatsRecord(
@@ -68,11 +97,11 @@ Stream<List<ChatMessagesRecord>> queryChatMessagesRecord(
         ChatMessagesRecord.collection, ChatMessagesRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
-Stream<List<Posts2Record>> queryPosts2Record(
+Stream<List<StatisticsRecord>> queryStatisticsRecord(
         {Query Function(Query) queryBuilder,
         int limit = -1,
         bool singleRecord = false}) =>
-    queryCollection(Posts2Record.collection, Posts2Record.serializer,
+    queryCollection(StatisticsRecord.collection, StatisticsRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(

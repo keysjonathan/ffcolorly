@@ -16,29 +16,12 @@ abstract class RestaurantsRecord
   String get restaurantName;
 
   @nullable
-  @BuiltValueField(wireName: 'restaurant_address')
-  String get restaurantAddress;
-
-  @nullable
-  @BuiltValueField(wireName: 'Featured_image')
-  String get featuredImage;
-
-  @nullable
   @BuiltValueField(wireName: 'Logo')
   String get logo;
 
   @nullable
-  String get hours;
-
-  @nullable
-  String get tags;
-
-  @nullable
-  bool get bookmarked;
-
-  @nullable
-  @BuiltValueField(wireName: 'diverse_tag')
-  bool get diverseTag;
+  @BuiltValueField(wireName: 'Featured_image')
+  String get featuredImage;
 
   @nullable
   @BuiltValueField(wireName: 'rest_lat_long')
@@ -48,42 +31,45 @@ abstract class RestaurantsRecord
   String get city;
 
   @nullable
-  String get state;
-
-  @nullable
-  @BuiltValueField(wireName: 'postal_code')
-  String get postalCode;
-
-  @nullable
   String get email;
+
+  @nullable
+  String get website;
 
   @nullable
   @BuiltValueField(wireName: 'price_range')
   String get priceRange;
 
   @nullable
-  int get reviews;
+  @BuiltValueField(wireName: 'rest_slogan')
+  String get restSlogan;
 
   @nullable
-  int get rating;
+  @BuiltValueField(wireName: 'rest_address')
+  String get restAddress;
+
+  @nullable
+  int get reviews;
 
   @nullable
   @BuiltValueField(wireName: 'rest_description')
   String get restDescription;
 
   @nullable
-  @BuiltValueField(wireName: 'post_ref')
-  DocumentReference get postRef;
+  String get categories;
 
   @nullable
-  String get website;
+  double get rating;
 
   @nullable
-  @BuiltValueField(wireName: 'rest_slogan')
-  String get restSlogan;
+  DocumentReference get userConnection;
 
   @nullable
-  BuiltList<double> get categories;
+  BuiltList<String> get gallery;
+
+  @nullable
+  @BuiltValueField(wireName: 'phone_number')
+  String get phoneNumber;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -91,24 +77,20 @@ abstract class RestaurantsRecord
 
   static void _initializeBuilder(RestaurantsRecordBuilder builder) => builder
     ..restaurantName = ''
-    ..restaurantAddress = ''
-    ..featuredImage = ''
     ..logo = ''
-    ..hours = ''
-    ..tags = ''
-    ..bookmarked = false
-    ..diverseTag = false
+    ..featuredImage = ''
     ..city = ''
-    ..state = ''
-    ..postalCode = ''
     ..email = ''
-    ..priceRange = ''
-    ..reviews = 0
-    ..rating = 0
-    ..restDescription = ''
     ..website = ''
+    ..priceRange = ''
     ..restSlogan = ''
-    ..categories = ListBuilder();
+    ..restAddress = ''
+    ..reviews = 0
+    ..restDescription = ''
+    ..categories = ''
+    ..rating = 0.0
+    ..gallery = ListBuilder()
+    ..phoneNumber = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('restaurants');
@@ -121,29 +103,26 @@ abstract class RestaurantsRecord
       RestaurantsRecord(
         (c) => c
           ..restaurantName = snapshot.data['restaurant_name']
-          ..restaurantAddress = snapshot.data['restaurant_address']
-          ..featuredImage = snapshot.data['Featured_image']
           ..logo = snapshot.data['Logo']
-          ..hours = snapshot.data['hours']
-          ..tags = snapshot.data['tags']
-          ..bookmarked = snapshot.data['bookmarked']
-          ..diverseTag = snapshot.data['diverse_tag']
+          ..featuredImage = snapshot.data['Featured_image']
           ..restLatLong = safeGet(() => LatLng(
                 snapshot.data['_geoloc']['lat'],
                 snapshot.data['_geoloc']['lng'],
               ))
           ..city = snapshot.data['city']
-          ..state = snapshot.data['state']
-          ..postalCode = snapshot.data['postal_code']
           ..email = snapshot.data['email']
-          ..priceRange = snapshot.data['price_range']
-          ..reviews = snapshot.data['reviews']
-          ..rating = snapshot.data['rating']
-          ..restDescription = snapshot.data['rest_description']
-          ..postRef = safeGet(() => toRef(snapshot.data['post_ref']))
           ..website = snapshot.data['website']
+          ..priceRange = snapshot.data['price_range']
           ..restSlogan = snapshot.data['rest_slogan']
-          ..categories = safeGet(() => ListBuilder(snapshot.data['categories']))
+          ..restAddress = snapshot.data['rest_address']
+          ..reviews = snapshot.data['reviews']
+          ..restDescription = snapshot.data['rest_description']
+          ..categories = snapshot.data['categories']
+          ..rating = snapshot.data['rating']
+          ..userConnection =
+              safeGet(() => toRef(snapshot.data['userConnection']))
+          ..gallery = safeGet(() => ListBuilder(snapshot.data['gallery']))
+          ..phoneNumber = snapshot.data['phone_number']
           ..reference = RestaurantsRecord.collection.doc(snapshot.objectID),
       );
 
@@ -174,47 +153,39 @@ abstract class RestaurantsRecord
 
 Map<String, dynamic> createRestaurantsRecordData({
   String restaurantName,
-  String restaurantAddress,
-  String featuredImage,
   String logo,
-  String hours,
-  String tags,
-  bool bookmarked,
-  bool diverseTag,
+  String featuredImage,
   LatLng restLatLong,
   String city,
-  String state,
-  String postalCode,
   String email,
-  String priceRange,
-  int reviews,
-  int rating,
-  String restDescription,
-  DocumentReference postRef,
   String website,
+  String priceRange,
   String restSlogan,
+  String restAddress,
+  int reviews,
+  String restDescription,
+  String categories,
+  double rating,
+  DocumentReference userConnection,
+  String phoneNumber,
 }) =>
     serializers.toFirestore(
         RestaurantsRecord.serializer,
         RestaurantsRecord((r) => r
           ..restaurantName = restaurantName
-          ..restaurantAddress = restaurantAddress
-          ..featuredImage = featuredImage
           ..logo = logo
-          ..hours = hours
-          ..tags = tags
-          ..bookmarked = bookmarked
-          ..diverseTag = diverseTag
+          ..featuredImage = featuredImage
           ..restLatLong = restLatLong
           ..city = city
-          ..state = state
-          ..postalCode = postalCode
           ..email = email
-          ..priceRange = priceRange
-          ..reviews = reviews
-          ..rating = rating
-          ..restDescription = restDescription
-          ..postRef = postRef
           ..website = website
+          ..priceRange = priceRange
           ..restSlogan = restSlogan
-          ..categories = null));
+          ..restAddress = restAddress
+          ..reviews = reviews
+          ..restDescription = restDescription
+          ..categories = categories
+          ..rating = rating
+          ..userConnection = userConnection
+          ..gallery = null
+          ..phoneNumber = phoneNumber));
