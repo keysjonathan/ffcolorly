@@ -1,7 +1,9 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../login/login_widget.dart';
 import '../view_profile_other/view_profile_other_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -52,7 +54,28 @@ class _AllUsersWidgetState extends State<AllUsersWidget>
             fontWeight: FontWeight.w600,
           ),
         ),
-        actions: [],
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+            child: InkWell(
+              onTap: () async {
+                await signOut();
+                await Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginWidget(),
+                  ),
+                  (r) => false,
+                );
+              },
+              child: Icon(
+                Icons.logout,
+                color: FlutterFlowTheme.tertiaryColor,
+                size: 24,
+              ),
+            ),
+          )
+        ],
         centerTitle: false,
         elevation: 4,
       ),

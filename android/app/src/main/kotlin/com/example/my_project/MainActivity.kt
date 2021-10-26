@@ -1,4 +1,4 @@
-package com.flutterflow.colorly
+package com.colorlyinc.colorlyapp
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

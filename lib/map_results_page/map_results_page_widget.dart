@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../components/map_marker_widget.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -74,31 +75,46 @@ class _MapResultsPageWidgetState extends State<MapResultsPageWidget> {
           backgroundColor: Color(0xFFEFEFEF),
           body: Stack(
             children: [
-              FlutterFlowGoogleMap(
-                controller: googleMapsController,
-                onCameraIdle: (latLng) =>
-                    setState(() => googleMapsCenter = latLng),
-                initialLocation: googleMapsCenter ??= currentUserLocationValue,
-                markers: (algoliaSearchResults ?? [])
-                    .map(
-                      (algoliaSearchResultsItem) => FlutterFlowMarker(
-                        algoliaSearchResultsItem.reference.path,
-                        algoliaSearchResultsItem.restLatLong,
-                      ),
-                    )
-                    .toList(),
-                markerColor: GoogleMarkerColor.orange,
-                mapType: MapType.normal,
-                style: GoogleMapStyle.silver,
-                initialZoom: 14,
-                allowInteraction: true,
-                allowZoom: true,
-                showZoomControls: true,
-                showLocation: true,
-                showCompass: false,
-                showMapToolbar: true,
-                showTraffic: true,
-                centerMapOnMarkerTap: true,
+              Align(
+                alignment: AlignmentDirectional(0, 0),
+                child: FlutterFlowGoogleMap(
+                  controller: googleMapsController,
+                  onCameraIdle: (latLng) =>
+                      setState(() => googleMapsCenter = latLng),
+                  initialLocation: googleMapsCenter ??=
+                      currentUserLocationValue,
+                  markers: (algoliaSearchResults ?? [])
+                      .map(
+                        (algoliaSearchResultsItem) => FlutterFlowMarker(
+                          algoliaSearchResultsItem.reference.path,
+                          algoliaSearchResultsItem.restLatLong,
+                          () async {
+                            await showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                return MapMarkerWidget(
+                                  restaurant: algoliaSearchResultsItem,
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      )
+                      .toList(),
+                  markerColor: GoogleMarkerColor.yellow,
+                  mapType: MapType.normal,
+                  style: GoogleMapStyle.dark,
+                  initialZoom: 10,
+                  allowInteraction: true,
+                  allowZoom: true,
+                  showZoomControls: false,
+                  showLocation: false,
+                  showCompass: false,
+                  showMapToolbar: false,
+                  showTraffic: true,
+                  centerMapOnMarkerTap: true,
+                ),
               ),
               Align(
                 alignment: AlignmentDirectional(-1, -1),

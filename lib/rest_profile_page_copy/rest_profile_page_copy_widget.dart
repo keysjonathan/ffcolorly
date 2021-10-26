@@ -9,6 +9,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_video_player.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../restaurant_details/restaurant_details_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -251,16 +252,31 @@ class _RestProfilePageCopyWidgetState extends State<RestProfilePageCopyWidget>
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(0, 4, 0, 8),
-                                                child: Text(
-                                                  rowRestaurantsRecord
-                                                      .restaurantName,
-                                                  textAlign: TextAlign.start,
-                                                  style: FlutterFlowTheme
-                                                      .bodyText1
-                                                      .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: FlutterFlowTheme
-                                                        .secondaryColor,
+                                                child: InkWell(
+                                                  onTap: () async {
+                                                    await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            RestaurantDetailsWidget(
+                                                          restaurant:
+                                                              rowRestaurantsRecord
+                                                                  .reference,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    rowRestaurantsRecord
+                                                        .restaurantName,
+                                                    textAlign: TextAlign.start,
+                                                    style: FlutterFlowTheme
+                                                        .bodyText1
+                                                        .override(
+                                                      fontFamily: 'Lexend Deca',
+                                                      color: FlutterFlowTheme
+                                                          .secondaryColor,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -392,8 +408,13 @@ class _RestProfilePageCopyWidgetState extends State<RestProfilePageCopyWidget>
                                   child: StreamBuilder<List<StoriesRecord>>(
                                     stream: queryStoriesRecord(
                                       queryBuilder: (storiesRecord) =>
-                                          storiesRecord.orderBy('created_time',
-                                              descending: true),
+                                          storiesRecord
+                                              .where('rest_ref',
+                                                  isEqualTo:
+                                                      widget.user
+                                                          .restaurantConnect)
+                                              .orderBy('created_time',
+                                                  descending: true),
                                     ),
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.

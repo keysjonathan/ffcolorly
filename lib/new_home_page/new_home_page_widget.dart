@@ -22,9 +22,11 @@ class NewHomePageWidget extends StatefulWidget {
   NewHomePageWidget({
     Key key,
     this.numLikes,
+    this.user,
   }) : super(key: key);
 
   final int numLikes;
+  final UsersRecord user;
 
   @override
   _NewHomePageWidgetState createState() => _NewHomePageWidgetState();
@@ -35,12 +37,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
   PageController pageViewController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
-    'iconOnActionTriggerAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onActionTrigger,
-      duration: 600,
-      scale: 1.2,
-    ),
-    'iconOnActionTriggerAnimation2': AnimationInfo(
+    'iconOnActionTriggerAnimation': AnimationInfo(
       trigger: AnimationTrigger.onActionTrigger,
       duration: 600,
       scale: 1.2,
@@ -113,7 +110,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
                                   height:
                                       MediaQuery.of(context).size.height * 0.8,
                                   autoPlay: true,
-                                  looping: true,
+                                  looping: false,
                                   showControls: false,
                                   allowFullScreen: false,
                                   allowPlaybackSpeedMenu: false,
@@ -776,7 +773,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
                                                                               postsUpdateData);
                                                                       final animation =
                                                                           animationsMap[
-                                                                              'iconOnActionTriggerAnimation1'];
+                                                                              'iconOnActionTriggerAnimation'];
                                                                       await (animation.curvedAnimation.parent
                                                                               as AnimationController)
                                                                           .forward(
@@ -799,10 +796,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
                                                                           .tertiaryColor,
                                                                       size: 26,
                                                                     ),
-                                                                  ).animated([
-                                                                    animationsMap[
-                                                                        'iconOnActionTriggerAnimation1']
-                                                                  ]),
+                                                                  ),
                                                                 ),
                                                               ),
                                                               Visibility(
@@ -835,7 +829,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
                                                                       final usersUpdateData =
                                                                           {
                                                                         'flavorTotal':
-                                                                            FieldValue.delete(),
+                                                                            FieldValue.increment(-1),
                                                                       };
                                                                       await columnUsersRecord
                                                                           .reference
@@ -852,7 +846,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
                                                                     ),
                                                                   ).animated([
                                                                     animationsMap[
-                                                                        'iconOnActionTriggerAnimation2']
+                                                                        'iconOnActionTriggerAnimation']
                                                                   ]),
                                                                 ),
                                                               )

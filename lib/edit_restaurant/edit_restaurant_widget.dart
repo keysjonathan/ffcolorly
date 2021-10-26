@@ -177,7 +177,10 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                       .hasUploadedMedia(uploadedFileUrl1) ??
                                   true,
                               child: FlutterFlowMediaDisplay(
-                                path: widget.restaurant.logo,
+                                path: valueOrDefault<String>(
+                                  widget.restaurant.logo,
+                                  'https://assets.bonappetit.com/photos/610aa6ddc50e2f9f7c42f7f8/master/pass/Savage-2019-top-50-busy-restaurant.jpg',
+                                ),
                                 imageBuilder: (path) => ClipRRect(
                                   borderRadius: BorderRadius.circular(999),
                                   child: Image.network(
@@ -265,7 +268,10 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                       .hasUploadedMedia(uploadedFileUrl2) ??
                                   true,
                               child: FlutterFlowMediaDisplay(
-                                path: widget.restaurant.featuredImage,
+                                path: valueOrDefault<String>(
+                                  widget.restaurant.featuredImage,
+                                  'https://assets.bonappetit.com/photos/610aa6ddc50e2f9f7c42f7f8/master/pass/Savage-2019-top-50-busy-restaurant.jpg',
+                                ),
                                 imageBuilder: (path) => ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
                                   child: Image.network(
@@ -289,45 +295,39 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                             )
                           ],
                         ),
-                        Visibility(
-                          visible: /* NOT RECOMMENDED */ restAdressController
-                                      .text ==
-                                  'true' ??
-                              true,
-                          child: Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 10, 12, 10),
-                            child: FlutterFlowPlacePicker(
-                              iOSGoogleMapsApiKey:
-                                  'AIzaSyBH1fZaBJ0aBUx4Y6fjsVaEs6cD9FhYgow',
-                              androidGoogleMapsApiKey:
-                                  'AIzaSyB8YLpQ-pVGaEOSZEfaoDBbniyzNHREMP0',
-                              webGoogleMapsApiKey:
-                                  'AIzaSyCI7LeCn7jPdiTPwKiLhn6xMxPlcLevReM',
-                              onSelect: (place) =>
-                                  setState(() => placePickerValue = place),
-                              defaultText: 'Restaurant Location',
-                              icon: Icon(
-                                Icons.place,
+                        Padding(
+                          padding:
+                              EdgeInsetsDirectional.fromSTEB(12, 10, 12, 10),
+                          child: FlutterFlowPlacePicker(
+                            iOSGoogleMapsApiKey:
+                                'AIzaSyBH1fZaBJ0aBUx4Y6fjsVaEs6cD9FhYgow',
+                            androidGoogleMapsApiKey:
+                                'AIzaSyB8YLpQ-pVGaEOSZEfaoDBbniyzNHREMP0',
+                            webGoogleMapsApiKey:
+                                'AIzaSyCI7LeCn7jPdiTPwKiLhn6xMxPlcLevReM',
+                            onSelect: (place) =>
+                                setState(() => placePickerValue = place),
+                            defaultText: 'Restaurant Location',
+                            icon: Icon(
+                              Icons.place,
+                              color: Color(0xFF95A1AC),
+                              size: 16,
+                            ),
+                            buttonOptions: FFButtonOptions(
+                              width: double.infinity,
+                              height: 50,
+                              color: Colors.white,
+                              textStyle: FlutterFlowTheme.subtitle2.override(
+                                fontFamily: 'Lexend Deca',
                                 color: Color(0xFF95A1AC),
-                                size: 16,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
                               ),
-                              buttonOptions: FFButtonOptions(
-                                width: double.infinity,
-                                height: 50,
-                                color: Colors.white,
-                                textStyle: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                borderSide: BorderSide(
-                                  color: Color(0xFFDBE2E7),
-                                  width: 2,
-                                ),
-                                borderRadius: 8,
+                              borderSide: BorderSide(
+                                color: Color(0xFFDBE2E7),
+                                width: 2,
                               ),
+                              borderRadius: 8,
                             ),
                           ),
                         ),
@@ -781,6 +781,31 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                     );
                     await widget.restaurant.reference
                         .update(restaurantsUpdateData);
+                    await showDialog(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: Text('Confirm'),
+                          content: Text(
+                              'Are you sure you want to make these changes?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext),
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.pop(alertDialogContext);
+                                Navigator.pop(context);
+                                ;
+                              },
+                              child: Text('Confirm'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   } finally {
                     setState(() => _loadingButton = false);
                   }

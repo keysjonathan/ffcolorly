@@ -36,7 +36,7 @@ class _CommentsWidgetState extends State<CommentsWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
@@ -356,138 +356,157 @@ class _CommentsWidgetState extends State<CommentsWidget> {
                     );
                   },
                 ),
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF2D2D2D),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * 0.9,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.tertiaryColor,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 3,
+                                      color: Color(0x3A000000),
+                                      offset: Offset(0, 1),
+                                    )
+                                  ],
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16, 4, 0, 4),
+                                        child: TextFormField(
+                                          controller: textController,
+                                          obscureText: false,
+                                          decoration: InputDecoration(
+                                            hintText: 'Comment here...',
+                                            hintStyle: FlutterFlowTheme
+                                                .bodyText1
+                                                .override(
+                                              fontFamily: 'Lexend Deca',
+                                              color: Color(0xFF0F0F0F),
+                                            ),
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0),
+                                              ),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0x00000000),
+                                                width: 1,
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(4.0),
+                                                topRight: Radius.circular(4.0),
+                                              ),
+                                            ),
+                                          ),
+                                          style: FlutterFlowTheme.bodyText1
+                                              .override(
+                                            fontFamily: 'Lexend Deca',
+                                            color: FlutterFlowTheme.primaryDark,
+                                          ),
+                                          keyboardType: TextInputType.multiline,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 4, 0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          setState(() => _loadingButton = true);
+                                          try {
+                                            final storyCommentsCreateData =
+                                                createStoryCommentsRecordData(
+                                              storyAssociation:
+                                                  widget.story.reference,
+                                              commentUser: currentUserReference,
+                                              comment: textController.text,
+                                              timePosted: getCurrentTimestamp,
+                                            );
+                                            await StoryCommentsRecord.collection
+                                                .doc()
+                                                .set(storyCommentsCreateData);
+
+                                            final storiesUpdateData = {
+                                              'numComments':
+                                                  FieldValue.increment(1),
+                                            };
+                                            await widget.story.reference
+                                                .update(storiesUpdateData);
+                                          } finally {
+                                            setState(
+                                                () => _loadingButton = false);
+                                          }
+                                        },
+                                        text: 'Post',
+                                        options: FFButtonOptions(
+                                          width: 70,
+                                          height: 40,
+                                          color: FlutterFlowTheme.tertiaryColor,
+                                          textStyle: FlutterFlowTheme.subtitle2
+                                              .override(
+                                            fontFamily: 'Lexend Deca',
+                                            color:
+                                                FlutterFlowTheme.primaryColor,
+                                          ),
+                                          elevation: 0,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1,
+                                          ),
+                                          borderRadius: 12,
+                                        ),
+                                        loading: _loadingButton,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  )
+                ],
               )
             ],
           ),
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Color(0xFF2D2D2D),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.tertiaryColor,
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 3,
-                            color: Color(0x3A000000),
-                            offset: Offset(0, 1),
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(16, 4, 0, 4),
-                              child: TextFormField(
-                                controller: textController,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  hintText: 'Comment here...',
-                                  hintStyle:
-                                      FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF0F0F0F),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(4.0),
-                                      topRight: Radius.circular(4.0),
-                                    ),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Color(0x00000000),
-                                      width: 1,
-                                    ),
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(4.0),
-                                      topRight: Radius.circular(4.0),
-                                    ),
-                                  ),
-                                ),
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: FlutterFlowTheme.primaryDark,
-                                ),
-                                keyboardType: TextInputType.multiline,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 4, 0),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                setState(() => _loadingButton = true);
-                                try {
-                                  final storyCommentsCreateData =
-                                      createStoryCommentsRecordData(
-                                    storyAssociation: widget.story.reference,
-                                    commentUser: currentUserReference,
-                                    comment: textController.text,
-                                    timePosted: getCurrentTimestamp,
-                                  );
-                                  await StoryCommentsRecord.collection
-                                      .doc()
-                                      .set(storyCommentsCreateData);
-
-                                  final storiesUpdateData = {
-                                    'numComments': FieldValue.increment(1),
-                                  };
-                                  await widget.story.reference
-                                      .update(storiesUpdateData);
-                                } finally {
-                                  setState(() => _loadingButton = false);
-                                }
-                              },
-                              text: 'Post',
-                              options: FFButtonOptions(
-                                width: 70,
-                                height: 40,
-                                color: FlutterFlowTheme.tertiaryColor,
-                                textStyle: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: FlutterFlowTheme.primaryColor,
-                                ),
-                                elevation: 0,
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1,
-                                ),
-                                borderRadius: 12,
-                              ),
-                              loading: _loadingButton,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
         )
       ],
     );

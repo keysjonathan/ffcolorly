@@ -131,7 +131,7 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
-          "fieldPath": "user",
+          "fieldPath": "rest_ref",
           "order": "ASCENDING"
         },
         {
@@ -141,7 +141,7 @@
       ]
     },
     {
-      "collectionGroup": "posts",
+      "collectionGroup": "stories",
       "queryScope": "COLLECTION",
       "fields": [
         {
@@ -149,7 +149,7 @@
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "created_at",
+          "fieldPath": "created_time",
           "order": "DESCENDING"
         }
       ]

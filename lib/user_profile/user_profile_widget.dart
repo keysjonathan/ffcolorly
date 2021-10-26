@@ -5,7 +5,6 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../followers/followers_widget.dart';
 import '../following/following_widget.dart';
 import '../login/login_widget.dart';
 import '../new_video_screen/new_video_screen_widget.dart';
@@ -22,11 +21,15 @@ class UserProfileWidget extends StatefulWidget {
     this.posts,
     this.user,
     this.friends,
+    this.post,
+    this.likes,
   }) : super(key: key);
 
   final DocumentReference posts;
   final UsersRecord user;
   final FriendsRecord friends;
+  final PostsRecord post;
+  final LikesRecord likes;
 
   @override
   _UserProfileWidgetState createState() => _UserProfileWidgetState();
@@ -348,161 +351,56 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                       ),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(60, 0, 46, 0),
-                        child: StreamBuilder<UsersRecord>(
-                          stream: UsersRecord.getDocument(
-                              userProfileUsersRecord.reference),
-                          builder: (context, snapshot) {
-                            // Customize what your widget looks like when it's loading.
-                            if (!snapshot.hasData) {
-                              return Center(
-                                child: SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                  child: SpinKitThreeBounce(
-                                    color: FlutterFlowTheme.primaryColor,
-                                    size: 50,
-                                  ),
-                                ),
-                              );
-                            }
-                            final rowUsersRecord = snapshot.data;
-                            return Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 20, 20, 20),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 0, 5),
-                                        child: Text(
-                                          userProfileUsersRecord.flavorTotal
-                                              .toString(),
-                                          style: FlutterFlowTheme.bodyText1
-                                              .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color:
-                                                FlutterFlowTheme.tertiaryColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  20, 20, 20, 20),
+                              child: InkWell(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FollowingWidget(
+                                        user: userProfileUsersRecord,
                                       ),
-                                      Text(
-                                        'Flavor',
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 5),
+                                      child: Text(
+                                        userProfileUsersRecord.following.length
+                                            .toString(),
                                         style:
                                             FlutterFlowTheme.bodyText1.override(
                                           fontFamily: 'Lexend Deca',
                                           color: FlutterFlowTheme.tertiaryColor,
-                                          fontSize: 12,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 20, 20, 20),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => FollowersWidget(
-                                            user: userProfileUsersRecord,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 5),
-                                          child: Text(
-                                            '978',
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: FlutterFlowTheme
-                                                  .tertiaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'Followers',
-                                          style: FlutterFlowTheme.bodyText1
-                                              .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color:
-                                                FlutterFlowTheme.tertiaryColor,
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      'Following',
+                                      style:
+                                          FlutterFlowTheme.bodyText1.override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: FlutterFlowTheme.tertiaryColor,
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 20, 20, 20),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => FollowingWidget(
-                                            user: userProfileUsersRecord,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 0, 0, 5),
-                                          child: Text(
-                                            userProfileUsersRecord
-                                                .following.length
-                                                .toString(),
-                                            style: FlutterFlowTheme.bodyText1
-                                                .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: FlutterFlowTheme
-                                                  .tertiaryColor,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          'Following',
-                                          style: FlutterFlowTheme.bodyText1
-                                              .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color:
-                                                FlutterFlowTheme.tertiaryColor,
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            );
-                          },
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       Container(
@@ -578,7 +476,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                             crossAxisCount: 3,
                                             crossAxisSpacing: 0,
                                             mainAxisSpacing: 0,
-                                            childAspectRatio: 1,
+                                            childAspectRatio: 0.75,
                                           ),
                                           primary: false,
                                           shrinkWrap: true,
@@ -596,57 +494,39 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                                   alignment:
                                                       AlignmentDirectional(
                                                           0, 0),
-                                                  child: StreamBuilder<
-                                                      List<PostsRecord>>(
-                                                    stream: queryPostsRecord(),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      // Customize what your widget looks like when it's loading.
-                                                      if (!snapshot.hasData) {
-                                                        return Center(
-                                                          child: SizedBox(
-                                                            width: 50,
-                                                            height: 50,
-                                                            child:
-                                                                SpinKitThreeBounce(
-                                                              color: FlutterFlowTheme
-                                                                  .primaryColor,
-                                                              size: 50,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }
-                                                      List<PostsRecord>
-                                                          imagePostsRecordList =
-                                                          snapshot.data;
-                                                      return InkWell(
-                                                        onTap: () async {
-                                                          await Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  NewVideoScreenWidget(
-                                                                initialStoryIndex:
-                                                                    gridViewIndex,
-                                                                post: gridViewPostsRecord
+                                                  child: InkWell(
+                                                    onTap: () async {
+                                                      await Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              NewVideoScreenWidget(
+                                                            initialStoryIndex:
+                                                                gridViewIndex,
+                                                            post:
+                                                                gridViewPostsRecord
                                                                     .reference,
-                                                                user:
-                                                                    userProfileUsersRecord,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                        child: Image.network(
-                                                          gridViewPostsRecord
-                                                              .videoThumbnail,
-                                                          width:
-                                                              double.infinity,
-                                                          height:
-                                                              double.infinity,
-                                                          fit: BoxFit.cover,
+                                                            user:
+                                                                userProfileUsersRecord,
+                                                          ),
                                                         ),
                                                       );
+                                                      final postsUpdateData = {
+                                                        'wacthed': FieldValue
+                                                            .increment(1),
+                                                      };
+                                                      await gridViewPostsRecord
+                                                          .reference
+                                                          .update(
+                                                              postsUpdateData);
                                                     },
+                                                    child: Image.network(
+                                                      gridViewPostsRecord
+                                                          .videoThumbnail,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                                 Align(
@@ -658,6 +538,124 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                                     color: Color(0xD8FFFFFF),
                                                     size: 24,
                                                   ),
+                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Color(0x00960000),
+                                                            FlutterFlowTheme
+                                                                .primaryDark
+                                                          ],
+                                                          stops: [0, 1],
+                                                          begin:
+                                                              AlignmentDirectional(
+                                                                  0, -1),
+                                                          end:
+                                                              AlignmentDirectional(
+                                                                  0, 1),
+                                                        ),
+                                                      ),
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0, 0),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        2,
+                                                                        0,
+                                                                        3,
+                                                                        0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .remove_red_eye,
+                                                              color: FlutterFlowTheme
+                                                                  .tertiaryColor,
+                                                              size: 14,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        0,
+                                                                        5,
+                                                                        0),
+                                                            child: Text(
+                                                              gridViewPostsRecord
+                                                                  .wacthed
+                                                                  .toString(),
+                                                              style:
+                                                                  FlutterFlowTheme
+                                                                      .bodyText1
+                                                                      .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: FlutterFlowTheme
+                                                                    .tertiaryColor,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        0,
+                                                                        3,
+                                                                        0),
+                                                            child: FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .fire,
+                                                              color: FlutterFlowTheme
+                                                                  .tertiaryColor,
+                                                              size: 12,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            gridViewPostsRecord
+                                                                .likes.length
+                                                                .toString(),
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .bodyText1
+                                                                    .override(
+                                                              fontFamily:
+                                                                  'Lexend Deca',
+                                                              color: FlutterFlowTheme
+                                                                  .tertiaryColor,
+                                                              fontSize: 12,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
                                                 )
                                               ],
                                             );
@@ -674,7 +672,6 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                                         currentUserReference)
                                                 .orderBy('created_at',
                                                     descending: true),
-                                        limit: 12,
                                       ),
                                       builder: (context, snapshot) {
                                         // Customize what your widget looks like when it's loading.
@@ -706,7 +703,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                             crossAxisCount: 3,
                                             crossAxisSpacing: 0,
                                             mainAxisSpacing: 0,
-                                            childAspectRatio: 1,
+                                            childAspectRatio: 0.75,
                                           ),
                                           primary: false,
                                           shrinkWrap: true,
@@ -720,66 +717,174 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                                     gridViewIndex];
                                             return Stack(
                                               children: [
-                                                StreamBuilder<
-                                                    List<PostsRecord>>(
-                                                  stream: queryPostsRecord(),
-                                                  builder: (context, snapshot) {
-                                                    // Customize what your widget looks like when it's loading.
-                                                    if (!snapshot.hasData) {
-                                                      return Center(
-                                                        child: SizedBox(
-                                                          width: 50,
-                                                          height: 50,
-                                                          child:
-                                                              SpinKitThreeBounce(
-                                                            color:
-                                                                FlutterFlowTheme
-                                                                    .primaryColor,
-                                                            size: 50,
-                                                          ),
+                                                InkWell(
+                                                  onTap: () async {
+                                                    await Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            NewVideoScreenWidget(
+                                                          initialStoryIndex:
+                                                              gridViewIndex,
+                                                          post: widget
+                                                              .post.reference,
                                                         ),
-                                                      );
-                                                    }
-                                                    List<PostsRecord>
-                                                        imagePostsRecordList =
-                                                        snapshot.data;
-                                                    return InkWell(
-                                                      onTap: () async {
-                                                        await Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                NewVideoScreenWidget(
-                                                              initialStoryIndex:
-                                                                  gridViewIndex,
-                                                              post:
-                                                                  gridViewPostsRecord
-                                                                      .reference,
-                                                              user:
-                                                                  userProfileUsersRecord,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                      child: Image.network(
-                                                        gridViewPostsRecord
-                                                            .videoThumbnail,
-                                                        width: double.infinity,
-                                                        height: double.infinity,
-                                                        fit: BoxFit.cover,
                                                       ),
                                                     );
+                                                    final postsUpdateData = {
+                                                      'wacthed':
+                                                          FieldValue.increment(
+                                                              1),
+                                                    };
+                                                    await gridViewPostsRecord
+                                                        .reference
+                                                        .update(
+                                                            postsUpdateData);
                                                   },
+                                                  child: Image.network(
+                                                    gridViewPostsRecord
+                                                        .videoThumbnail,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                                 Align(
                                                   alignment:
                                                       AlignmentDirectional(
                                                           0.85, -0.85),
                                                   child: Icon(
-                                                    Icons.content_copy,
+                                                    Icons
+                                                        .play_circle_outline_rounded,
                                                     color: Color(0xD8FFFFFF),
                                                     size: 24,
                                                   ),
+                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Color(0x00960000),
+                                                            FlutterFlowTheme
+                                                                .primaryDark
+                                                          ],
+                                                          stops: [0, 1],
+                                                          begin:
+                                                              AlignmentDirectional(
+                                                                  0, -1),
+                                                          end:
+                                                              AlignmentDirectional(
+                                                                  0, 1),
+                                                        ),
+                                                      ),
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0, 0),
+                                                      child: Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        2,
+                                                                        0,
+                                                                        3,
+                                                                        0),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .remove_red_eye,
+                                                              color: FlutterFlowTheme
+                                                                  .tertiaryColor,
+                                                              size: 14,
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        0,
+                                                                        5,
+                                                                        0),
+                                                            child: Text(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                gridViewPostsRecord
+                                                                    .wacthed
+                                                                    .toString(),
+                                                                '0',
+                                                              ),
+                                                              style:
+                                                                  FlutterFlowTheme
+                                                                      .bodyText1
+                                                                      .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: FlutterFlowTheme
+                                                                    .tertiaryColor,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0,
+                                                                        0,
+                                                                        3,
+                                                                        0),
+                                                            child: FaIcon(
+                                                              FontAwesomeIcons
+                                                                  .fire,
+                                                              color: FlutterFlowTheme
+                                                                  .tertiaryColor,
+                                                              size: 12,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            valueOrDefault<
+                                                                String>(
+                                                              gridViewPostsRecord
+                                                                  .likes.length
+                                                                  .toString(),
+                                                              '0',
+                                                            ),
+                                                            style:
+                                                                FlutterFlowTheme
+                                                                    .bodyText1
+                                                                    .override(
+                                                              fontFamily:
+                                                                  'Lexend Deca',
+                                                              color: FlutterFlowTheme
+                                                                  .tertiaryColor,
+                                                              fontSize: 12,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
                                                 )
                                               ],
                                             );

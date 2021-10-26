@@ -61,6 +61,9 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
   int get numShares;
 
   @nullable
+  int get wacthed;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -75,7 +78,8 @@ abstract class PostsRecord implements Built<PostsRecord, PostsRecordBuilder> {
     ..postOwner = false
     ..numLikes = 0
     ..numComments = 0
-    ..numShares = 0;
+    ..numShares = 0
+    ..wacthed = 0;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('posts');
@@ -108,6 +112,7 @@ Map<String, dynamic> createPostsRecordData({
   int numLikes,
   int numComments,
   int numShares,
+  int wacthed,
 }) =>
     serializers.toFirestore(
         PostsRecord.serializer,
@@ -125,4 +130,5 @@ Map<String, dynamic> createPostsRecordData({
           ..postOwner = postOwner
           ..numLikes = numLikes
           ..numComments = numComments
-          ..numShares = numShares));
+          ..numShares = numShares
+          ..wacthed = wacthed));

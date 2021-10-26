@@ -25,14 +25,12 @@ class NewVideoScreenWidget extends StatefulWidget {
     this.restaurant,
     this.user,
     this.post,
-    this.hgcvk,
   }) : super(key: key);
 
   final int initialStoryIndex;
   final RestaurantsRecord restaurant;
   final UsersRecord user;
   final DocumentReference post;
-  final String hgcvk;
 
   @override
   _NewVideoScreenWidgetState createState() => _NewVideoScreenWidgetState();
@@ -43,12 +41,7 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
   PageController pageViewController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
-    'iconOnActionTriggerAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onActionTrigger,
-      duration: 600,
-      scale: 1.2,
-    ),
-    'iconOnActionTriggerAnimation2': AnimationInfo(
+    'iconOnActionTriggerAnimation': AnimationInfo(
       trigger: AnimationTrigger.onActionTrigger,
       duration: 600,
       scale: 1.2,
@@ -93,9 +86,8 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
               Expanded(
                 child: StreamBuilder<List<PostsRecord>>(
                   stream: queryPostsRecord(
-                    queryBuilder: (postsRecord) => postsRecord
-                        .where('user', isEqualTo: widget.user.reference)
-                        .orderBy('created_at', descending: true),
+                    queryBuilder: (postsRecord) =>
+                        postsRecord.orderBy('created_at', descending: true),
                   ),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
@@ -893,7 +885,7 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
                                                                                 ]),
                                                                               };
                                                                               await pageViewPostsRecord.reference.update(postsUpdateData);
-                                                                              final animation = animationsMap['iconOnActionTriggerAnimation1'];
+                                                                              final animation = animationsMap['iconOnActionTriggerAnimation'];
                                                                               await (animation.curvedAnimation.parent as AnimationController).forward(from: 0.0);
                                                                               final usersUpdateData = {
                                                                                 'flavorTotal': FieldValue.increment(1),
@@ -906,9 +898,7 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
                                                                               color: FlutterFlowTheme.tertiaryColor,
                                                                               size: 26,
                                                                             ),
-                                                                          ).animated([
-                                                                            animationsMap['iconOnActionTriggerAnimation1']
-                                                                          ]),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       Visibility(
@@ -932,7 +922,7 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
                                                                               await pageViewPostsRecord.reference.update(postsUpdateData);
 
                                                                               final usersUpdateData = {
-                                                                                'flavorTotal': FieldValue.delete(),
+                                                                                'flavorTotal': FieldValue.increment(-1),
                                                                               };
                                                                               await columnUsersRecord.reference.update(usersUpdateData);
                                                                             },
@@ -943,7 +933,7 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
                                                                               size: 26,
                                                                             ),
                                                                           ).animated([
-                                                                            animationsMap['iconOnActionTriggerAnimation2']
+                                                                            animationsMap['iconOnActionTriggerAnimation']
                                                                           ]),
                                                                         ),
                                                                       )

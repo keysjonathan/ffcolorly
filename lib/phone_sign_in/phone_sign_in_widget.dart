@@ -22,7 +22,7 @@ class _PhoneSignInWidgetState extends State<PhoneSignInWidget> {
   @override
   void initState() {
     super.initState();
-    phoneNumberController = TextEditingController();
+    phoneNumberController = TextEditingController(text: '+1');
   }
 
   @override

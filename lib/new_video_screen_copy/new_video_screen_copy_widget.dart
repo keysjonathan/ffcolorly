@@ -43,12 +43,7 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
   PageController pageViewController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
-    'iconOnActionTriggerAnimation1': AnimationInfo(
-      trigger: AnimationTrigger.onActionTrigger,
-      duration: 600,
-      scale: 1.2,
-    ),
-    'iconOnActionTriggerAnimation2': AnimationInfo(
+    'iconOnActionTriggerAnimation': AnimationInfo(
       trigger: AnimationTrigger.onActionTrigger,
       duration: 600,
       scale: 1.2,
@@ -145,10 +140,10 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.8,
+                                              0.95,
                                           autoPlay: true,
-                                          looping: true,
-                                          showControls: false,
+                                          looping: false,
+                                          showControls: true,
                                           allowFullScreen: false,
                                           allowPlaybackSpeedMenu: false,
                                         ),
@@ -871,7 +866,7 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                                 ]),
                                                                               };
                                                                               await pageViewPostsRecord.reference.update(postsUpdateData);
-                                                                              final animation = animationsMap['iconOnActionTriggerAnimation1'];
+                                                                              final animation = animationsMap['iconOnActionTriggerAnimation'];
                                                                               await (animation.curvedAnimation.parent as AnimationController).forward(from: 0.0);
                                                                               final usersUpdateData = {
                                                                                 'flavorTotal': FieldValue.increment(1),
@@ -884,9 +879,7 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                               color: FlutterFlowTheme.tertiaryColor,
                                                                               size: 26,
                                                                             ),
-                                                                          ).animated([
-                                                                            animationsMap['iconOnActionTriggerAnimation1']
-                                                                          ]),
+                                                                          ),
                                                                         ),
                                                                       ),
                                                                       Visibility(
@@ -910,7 +903,7 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                               await pageViewPostsRecord.reference.update(postsUpdateData);
 
                                                                               final usersUpdateData = {
-                                                                                'flavorTotal': FieldValue.delete(),
+                                                                                'flavorTotal': FieldValue.increment(-1),
                                                                               };
                                                                               await columnUsersRecord.reference.update(usersUpdateData);
                                                                             },
@@ -921,7 +914,7 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                               size: 26,
                                                                             ),
                                                                           ).animated([
-                                                                            animationsMap['iconOnActionTriggerAnimation2']
+                                                                            animationsMap['iconOnActionTriggerAnimation']
                                                                           ]),
                                                                         ),
                                                                       )
