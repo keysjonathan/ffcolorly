@@ -172,10 +172,7 @@ class _FollowingWidgetState extends State<FollowingWidget> {
                                           children: [
                                             Text(
                                               containerUsersRecord.username,
-                                              style: FlutterFlowTheme.subtitle1
-                                                  .override(
-                                                fontFamily: 'Lexend Deca',
-                                              ),
+                                              style: FlutterFlowTheme.subtitle1,
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
@@ -187,10 +184,7 @@ class _FollowingWidgetState extends State<FollowingWidget> {
                                                     containerUsersRecord
                                                         .displayName,
                                                     style: FlutterFlowTheme
-                                                        .bodyText2
-                                                        .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                    ),
+                                                        .bodyText2,
                                                   )
                                                 ],
                                               ),

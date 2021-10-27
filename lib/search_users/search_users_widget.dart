@@ -264,10 +264,7 @@ class _SearchUsersWidgetState extends State<SearchUsersWidget> {
                                           children: [
                                             Text(
                                               containerUsersRecord.displayName,
-                                              style: FlutterFlowTheme.subtitle1
-                                                  .override(
-                                                fontFamily: 'Lexend Deca',
-                                              ),
+                                              style: FlutterFlowTheme.subtitle1,
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
@@ -279,10 +276,7 @@ class _SearchUsersWidgetState extends State<SearchUsersWidget> {
                                                     containerUsersRecord
                                                         .displayName,
                                                     style: FlutterFlowTheme
-                                                        .bodyText2
-                                                        .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                    ),
+                                                        .bodyText2,
                                                   )
                                                 ],
                                               ),

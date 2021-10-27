@@ -178,7 +178,7 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                   true,
                               child: FlutterFlowMediaDisplay(
                                 path: valueOrDefault<String>(
-                                  widget.restaurant.logo,
+                                  uploadedFileUrl1,
                                   'https://assets.bonappetit.com/photos/610aa6ddc50e2f9f7c42f7f8/master/pass/Savage-2019-top-50-busy-restaurant.jpg',
                                 ),
                                 imageBuilder: (path) => ClipRRect(
@@ -269,7 +269,7 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                   true,
                               child: FlutterFlowMediaDisplay(
                                 path: valueOrDefault<String>(
-                                  widget.restaurant.featuredImage,
+                                  uploadedFileUrl2,
                                   'https://assets.bonappetit.com/photos/610aa6ddc50e2f9f7c42f7f8/master/pass/Savage-2019-top-50-busy-restaurant.jpg',
                                 ),
                                 imageBuilder: (path) => ClipRRect(
@@ -284,9 +284,10 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                 videoPlayerBuilder: (path) =>
                                     FlutterFlowVideoPlayer(
                                   path: path,
-                                  width: 300,
+                                  width: 200,
+                                  height: 225,
                                   autoPlay: false,
-                                  looping: true,
+                                  looping: false,
                                   showControls: true,
                                   allowFullScreen: true,
                                   allowPlaybackSpeedMenu: false,
@@ -323,6 +324,7 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
+                              elevation: 4,
                               borderSide: BorderSide(
                                 color: Color(0xFFDBE2E7),
                                 width: 2,
@@ -650,7 +652,8 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                             children: [
                               Expanded(
                                 child: FlutterFlowChoiceChips(
-                                  initialOption: choiceChipsValue ??= '\$',
+                                  initialOption: choiceChipsValue ??=
+                                      widget.restaurant.priceRange,
                                   options: [
                                     ChipData('\$'),
                                     ChipData('\$\$'),
@@ -686,14 +689,6 @@ class _EditRestaurantWidgetState extends State<EditRestaurantWidget> {
                                 ),
                               )
                             ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [],
                           ),
                         ),
                         Padding(

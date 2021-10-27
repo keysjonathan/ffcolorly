@@ -162,9 +162,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Your email...',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                        ),
+                        labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFE6E6E6),
@@ -197,9 +195,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       obscureText: !passwordVisibility,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                        ),
+                        labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFE6E6E6),
@@ -244,9 +240,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       obscureText: !passwordConfirmVisibility,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                        ),
+                        labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFE6E6E6),

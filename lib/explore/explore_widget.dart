@@ -6,6 +6,7 @@ import '../map_results_page/map_results_page_widget.dart';
 import '../restaurant_details/restaurant_details_widget.dart';
 import '../search_results/search_results_widget.dart';
 import '../story_details/story_details_widget.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -707,8 +708,9 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                                             onPressed:
                                                                 () async {
                                                               await launchURL(
-                                                                  storeListViewRestaurantsRecord
-                                                                      .restAddress);
+                                                                  functions.getMapUrl(
+                                                                      storeListViewRestaurantsRecord
+                                                                          .restLatLong));
                                                             },
                                                           )
                                                         ],

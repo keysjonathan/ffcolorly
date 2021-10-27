@@ -98,9 +98,7 @@ class _RightSideColumnWidgetState extends State<RightSideColumnWidget> {
                           ),
                           Text(
                             'Hello World',
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Lexend Deca',
-                            ),
+                            style: FlutterFlowTheme.bodyText1,
                           ),
                           Padding(
                             padding:
@@ -121,9 +119,7 @@ class _RightSideColumnWidgetState extends State<RightSideColumnWidget> {
                           ),
                           Text(
                             'Hello World',
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Lexend Deca',
-                            ),
+                            style: FlutterFlowTheme.bodyText1,
                           ),
                           Padding(
                             padding:
@@ -144,9 +140,7 @@ class _RightSideColumnWidgetState extends State<RightSideColumnWidget> {
                           ),
                           Text(
                             'Hello World',
-                            style: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Lexend Deca',
-                            ),
+                            style: FlutterFlowTheme.bodyText1,
                           ),
                           Padding(
                             padding:

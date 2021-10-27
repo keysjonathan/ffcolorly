@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../restaurant_details/restaurant_details_widget.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -528,8 +529,9 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                       ),
                                                       onPressed: () async {
                                                         await launchURL(
-                                                            restaurantsItem
-                                                                .restAddress);
+                                                            functions.getMapUrl(
+                                                                restaurantsItem
+                                                                    .restLatLong));
                                                       },
                                                     )
                                                   ],

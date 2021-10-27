@@ -171,7 +171,10 @@ class _AddProfileInfoWidgetState extends State<AddProfileInfoWidget> {
                                 shape: BoxShape.circle,
                               ),
                               child: Image.network(
-                                uploadedFileUrl1,
+                                valueOrDefault<String>(
+                                  uploadedFileUrl1,
+                                  ' https://p1.pxfuel.com/preview/828/149/229/indistinct-blurred-pineapple-rough.jpg',
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),

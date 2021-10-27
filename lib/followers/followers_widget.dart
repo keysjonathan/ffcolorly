@@ -176,10 +176,7 @@ class _FollowersWidgetState extends State<FollowersWidget> {
                                           children: [
                                             Text(
                                               widget.user.username,
-                                              style: FlutterFlowTheme.subtitle1
-                                                  .override(
-                                                fontFamily: 'Lexend Deca',
-                                              ),
+                                              style: FlutterFlowTheme.subtitle1,
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
@@ -190,10 +187,7 @@ class _FollowersWidgetState extends State<FollowersWidget> {
                                                   Text(
                                                     widget.user.displayName,
                                                     style: FlutterFlowTheme
-                                                        .bodyText2
-                                                        .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                    ),
+                                                        .bodyText2,
                                                   )
                                                 ],
                                               ),

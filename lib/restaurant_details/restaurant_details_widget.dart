@@ -328,9 +328,7 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                                 child: Text(
                                                                                   'Diverse',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: FlutterFlowTheme.bodyText1.override(
-                                                                                    fontFamily: 'Lexend Deca',
-                                                                                  ),
+                                                                                  style: FlutterFlowTheme.bodyText1,
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -363,9 +361,7 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                                 child: Text(
                                                                                   'Comfortable',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: FlutterFlowTheme.bodyText1.override(
-                                                                                    fontFamily: 'Lexend Deca',
-                                                                                  ),
+                                                                                  style: FlutterFlowTheme.bodyText1,
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -834,11 +830,7 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                   columnRestaurantsRecord
                                                                       .restAddress,
                                                                   style: FlutterFlowTheme
-                                                                      .subtitle2
-                                                                      .override(
-                                                                    fontFamily:
-                                                                        'Lexend Deca',
-                                                                  ),
+                                                                      .subtitle2,
                                                                 ),
                                                               )
                                                             ],

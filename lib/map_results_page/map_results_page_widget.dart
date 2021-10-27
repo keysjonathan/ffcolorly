@@ -93,9 +93,7 @@ class _MapResultsPageWidgetState extends State<MapResultsPageWidget> {
                               isScrollControlled: true,
                               context: context,
                               builder: (context) {
-                                return MapMarkerWidget(
-                                  restaurant: algoliaSearchResultsItem,
-                                );
+                                return MapMarkerWidget();
                               },
                             );
                           },
