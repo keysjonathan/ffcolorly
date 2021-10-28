@@ -183,8 +183,7 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
             data, 'friend', FriendsRecord.serializer),
       ),
   'mapResultsPage': (data) async => MapResultsPageWidget(
-        restaurant: await getDocumentParameter(
-            data, 'restaurant', RestaurantsRecord.serializer),
+        restaurant: getParameter(data, 'restaurant'),
       ),
   'editRestaurant': (data) async => EditRestaurantWidget(
         user: await getDocumentParameter(data, 'user', UsersRecord.serializer),

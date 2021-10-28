@@ -1,10 +1,11 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../components/map_marker_widget.dart';
 import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../restaurant_details/restaurant_details_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ class MapResultsPageWidget extends StatefulWidget {
     this.restaurant,
   }) : super(key: key);
 
-  final RestaurantsRecord restaurant;
+  final DocumentReference restaurant;
 
   @override
   _MapResultsPageWidgetState createState() => _MapResultsPageWidgetState();
@@ -89,12 +90,14 @@ class _MapResultsPageWidgetState extends State<MapResultsPageWidget> {
                           algoliaSearchResultsItem.reference.path,
                           algoliaSearchResultsItem.restLatLong,
                           () async {
-                            await showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) {
-                                return MapMarkerWidget();
-                              },
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RestaurantDetailsWidget(
+                                  restaurant:
+                                      algoliaSearchResultsItem.reference,
+                                ),
+                              ),
                             );
                           },
                         ),
