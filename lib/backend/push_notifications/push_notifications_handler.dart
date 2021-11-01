@@ -37,7 +37,6 @@ import '../../phone_sign_in/phone_sign_in_widget.dart';
 import '../../phone_verification/phone_verification_widget.dart';
 import '../../blocked_users/blocked_users_widget.dart';
 import '../../story_details_copy/story_details_copy_widget.dart';
-import '../../new_home_page_copy/new_home_page_copy_widget.dart';
 
 class PushNotificationsHandler extends StatefulWidget {
   const PushNotificationsHandler(
@@ -236,12 +235,6 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
         stories: await getDocumentParameter(
             data, 'stories', StoriesRecord.serializer),
-      ),
-  'newHomePageCopy': (data) async => NewHomePageCopyWidget(
-        numLikes: getParameter(data, 'numLikes'),
-        user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
-        userRef: getParameter(data, 'userRef'),
-        friends: getParameter(data, 'friends'),
       ),
 };
 
