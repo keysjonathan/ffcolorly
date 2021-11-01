@@ -359,17 +359,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                         onPressed: () async {
                           setState(() => _loadingButton4 = true);
                           try {
-                            final user = await signInAnonymously(context);
-                            if (user == null) {
-                              return;
-                            }
-                            await Navigator.pushAndRemoveUntil(
+                            await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
                                     NavBarPage(initialPage: 'newHomePage'),
                               ),
-                              (r) => false,
                             );
                           } finally {
                             setState(() => _loadingButton4 = false);
