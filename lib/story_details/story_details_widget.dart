@@ -58,11 +58,11 @@ class _StoryDetailsWidgetState extends State<StoryDetailsWidget> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: SizedBox(
-                        width: 50,
-                        height: 50,
+                        width: 30,
+                        height: 30,
                         child: SpinKitThreeBounce(
                           color: FlutterFlowTheme.primaryColor,
-                          size: 50,
+                          size: 30,
                         ),
                       ),
                     );
@@ -149,13 +149,13 @@ class _StoryDetailsWidgetState extends State<StoryDetailsWidget> {
                                                         if (!snapshot.hasData) {
                                                           return Center(
                                                             child: SizedBox(
-                                                              width: 50,
-                                                              height: 50,
+                                                              width: 30,
+                                                              height: 30,
                                                               child:
                                                                   SpinKitThreeBounce(
                                                                 color: FlutterFlowTheme
                                                                     .primaryColor,
-                                                                size: 50,
+                                                                size: 30,
                                                               ),
                                                             ),
                                                           );
