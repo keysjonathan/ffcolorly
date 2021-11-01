@@ -24,6 +24,7 @@ import '../../story_details/story_details_widget.dart';
 import '../../chat_user/chat_user_widget.dart';
 import '../../chat_main/chat_main_widget.dart';
 import '../../search_users/search_users_widget.dart';
+import '../../all_users/all_users_widget.dart';
 import '../../add_story_page/add_story_page_widget.dart';
 import '../../following/following_widget.dart';
 import '../../followers/followers_widget.dart';
@@ -34,6 +35,9 @@ import '../../new_video_screen_copy/new_video_screen_copy_widget.dart';
 import '../../rest_profile_page_copy/rest_profile_page_copy_widget.dart';
 import '../../phone_sign_in/phone_sign_in_widget.dart';
 import '../../phone_verification/phone_verification_widget.dart';
+import '../../blocked_users/blocked_users_widget.dart';
+import '../../story_details_copy/story_details_copy_widget.dart';
+import '../../new_home_page_copy/new_home_page_copy_widget.dart';
 
 class PushNotificationsHandler extends StatefulWidget {
   const PushNotificationsHandler(
@@ -154,6 +158,8 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         restaurant: await getDocumentParameter(
             data, 'restaurant', RestaurantsRecord.serializer),
         user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
+        stories: await getDocumentParameter(
+            data, 'stories', StoriesRecord.serializer),
       ),
   'chatUser': (data) async => ChatUserWidget(
         chatUser: await getDocumentParameter(
@@ -166,7 +172,12 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
         )
       : NavBarPage(initialPage: 'ChatMainWidget'),
   'searchUsers': (data) async => SearchUsersWidget(),
-  'allUsers': (data) async => NavBarPage(initialPage: 'AllUsersWidget'),
+  'allUsers': (data) async => hasMatchingParameters(data, {'users'})
+      ? AllUsersWidget(
+          users:
+              await getDocumentParameter(data, 'users', UsersRecord.serializer),
+        )
+      : NavBarPage(initialPage: 'AllUsersWidget'),
   'addStoryPage': (data) async => AddStoryPageWidget(
         user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
         restaurant: await getDocumentParameter(
@@ -213,6 +224,25 @@ final pageBuilderMap = <String, Future<Widget> Function(Map<String, dynamic>)>{
       ),
   'phoneSignIn': (data) async => PhoneSignInWidget(),
   'phoneVerification': (data) async => PhoneVerificationWidget(),
+  'blockedUsers': (data) async => BlockedUsersWidget(
+        friends: await getDocumentParameter(
+            data, 'friends', FriendsRecord.serializer),
+        user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
+      ),
+  'storyDetailsCopy': (data) async => StoryDetailsCopyWidget(
+        initialStoryIndex: getParameter(data, 'initialStoryIndex'),
+        restaurant: await getDocumentParameter(
+            data, 'restaurant', RestaurantsRecord.serializer),
+        user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
+        stories: await getDocumentParameter(
+            data, 'stories', StoriesRecord.serializer),
+      ),
+  'newHomePageCopy': (data) async => NewHomePageCopyWidget(
+        numLikes: getParameter(data, 'numLikes'),
+        user: await getDocumentParameter(data, 'user', UsersRecord.serializer),
+        userRef: getParameter(data, 'userRef'),
+        friends: getParameter(data, 'friends'),
+      ),
 };
 
 bool hasMatchingParameters(Map<String, dynamic> data, Set<String> params) =>

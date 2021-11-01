@@ -68,5 +68,17 @@ service cloud.firestore {
     match /likes/{id} {
       allow read, write: if true;
     }
+
+    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
+    // security rules for this collection before publishing your app.
+    match /flaggedVideos/{id} {
+      allow read, write: if true;
+    }
+
+    // WARNING! ONLY FOR TEST MODE: Make sure you properly configure the
+    // security rules for this collection before publishing your app.
+    match /restaurantMenus/{id} {
+      allow read, write: if true;
+    }
   }
 }

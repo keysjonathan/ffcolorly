@@ -1,5 +1,6 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../blocked_users/blocked_users_widget.dart';
 import '../edit_profile/edit_profile_widget.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -119,6 +120,26 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
               ),
             ),
             actions: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
+                child: InkWell(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BlockedUsersWidget(
+                          user: userProfileUsersRecord,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.person_add_disabled,
+                    color: FlutterFlowTheme.tertiaryColor,
+                    size: 24,
+                  ),
+                ),
+              ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                 child: InkWell(
@@ -301,6 +322,7 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                   child: Text(
                                     userProfileUsersRecord.bio
                                         .maybeHandleOverflow(maxChars: 60),
+                                    textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.subtitle2.override(
                                       fontFamily: 'Lexend Deca',
                                       color: FlutterFlowTheme.tertiaryColor,
@@ -685,6 +707,19 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                                           ),
                                                         )
                                                       ],
+                                                    ),
+                                                    Visibility(
+                                                      visible:
+                                                          gridViewPostsRecord
+                                                                  .isFlagged ??
+                                                              true,
+                                                      child: FaIcon(
+                                                        FontAwesomeIcons
+                                                            .solidEyeSlash,
+                                                        color: FlutterFlowTheme
+                                                            .secondaryColor,
+                                                        size: 24,
+                                                      ),
                                                     )
                                                   ],
                                                 );
@@ -701,6 +736,8 @@ class _UserProfileWidgetState extends State<UserProfileWidget> {
                                                 .where('likes',
                                                     arrayContains:
                                                         currentUserReference)
+                                                .where('isFlagged',
+                                                    isEqualTo: false)
                                                 .orderBy('created_at',
                                                     descending: true),
                                       ),

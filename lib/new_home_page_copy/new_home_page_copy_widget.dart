@@ -19,23 +19,25 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
-class NewHomePageWidget extends StatefulWidget {
-  NewHomePageWidget({
+class NewHomePageCopyWidget extends StatefulWidget {
+  NewHomePageCopyWidget({
     Key key,
     this.numLikes,
     this.user,
-    this.posts,
+    this.userRef,
+    this.friends,
   }) : super(key: key);
 
   final int numLikes;
   final UsersRecord user;
-  final PostsRecord posts;
+  final DocumentReference userRef;
+  final DocumentReference friends;
 
   @override
-  _NewHomePageWidgetState createState() => _NewHomePageWidgetState();
+  _NewHomePageCopyWidgetState createState() => _NewHomePageCopyWidgetState();
 }
 
-class _NewHomePageWidgetState extends State<NewHomePageWidget>
+class _NewHomePageCopyWidgetState extends State<NewHomePageCopyWidget>
     with TickerProviderStateMixin {
   PageController pageViewController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -69,6 +71,7 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
             child: StreamBuilder<List<PostsRecord>>(
               stream: queryPostsRecord(
                 queryBuilder: (postsRecord) => postsRecord
+                    .where('user', isEqualTo: widget.user.reference)
                     .where('isFlagged', isEqualTo: false)
                     .orderBy('created_at', descending: true),
               ),
@@ -702,8 +705,8 @@ class _NewHomePageWidgetState extends State<NewHomePageWidget>
                                                       InkWell(
                                                         onTap: () async {
                                                           await Share.share(
-                                                              pageViewPostsRecord
-                                                                  .restaurantName);
+                                                              pageViewIndex
+                                                                  .toString());
                                                         },
                                                         child: Icon(
                                                           Icons.ios_share,

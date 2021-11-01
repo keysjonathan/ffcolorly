@@ -91,12 +91,6 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                     ),
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.primaryDark,
-                      image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: Image.asset(
-                          'assets/images/classHero.jpg',
-                        ).image,
-                      ),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2,
@@ -439,6 +433,7 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                       userRating: ratingBarValue,
                       videoThumbnail: uploadedFileUrl2,
                       createdAt: getCurrentTimestamp,
+                      isFlagged: false,
                     );
                     await PostsRecord.collection.doc().set(postsCreateData);
                     Navigator.pop(context);

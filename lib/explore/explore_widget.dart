@@ -29,10 +29,30 @@ class ExploreWidget extends StatefulWidget {
 }
 
 class _ExploreWidgetState extends State<ExploreWidget> {
+  LatLng currentUserLocationValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (currentUserLocationValue == null) {
+      return Center(
+        child: SizedBox(
+          width: 50,
+          height: 50,
+          child: SpinKitThreeBounce(
+            color: FlutterFlowTheme.primaryColor,
+            size: 50,
+          ),
+        ),
+      );
+    }
     return StreamBuilder<List<PostsRecord>>(
       stream: queryPostsRecord(),
       builder: (context, snapshot) {
@@ -300,9 +320,13 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                       decoration: BoxDecoration(
                         color: Color(0xFFEEEEEE),
                       ),
-                      child: StreamBuilder<List<RestaurantsRecord>>(
-                        stream: queryRestaurantsRecord(
-                          limit: 30,
+                      child: FutureBuilder<List<RestaurantsRecord>>(
+                        future: RestaurantsRecord.search(
+                          location: getCurrentUserLocation(
+                              defaultLocation:
+                                  LatLng(37.4298229, -122.1735655)),
+                          maxResults: 30,
+                          searchRadiusMeters: 30000,
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
@@ -320,6 +344,15 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                           }
                           List<RestaurantsRecord> columnRestaurantsRecordList =
                               snapshot.data;
+                          // Customize what your widget looks like with no search results.
+                          if (snapshot.data.isEmpty) {
+                            return Container(
+                              height: 100,
+                              child: Center(
+                                child: Text('No results.'),
+                              ),
+                            );
+                          }
                           return SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -606,6 +639,52 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                                                             14,
                                                                         fontWeight:
                                                                             FontWeight.w500,
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Text(
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        storeListViewRestaurantsRecord
+                                                                            .priceRange,
+                                                                        '\$\$',
+                                                                      ).maybeHandleOverflow(
+                                                                        maxChars:
+                                                                            30,
+                                                                        replacement:
+                                                                            '…',
+                                                                      ),
+                                                                      style: FlutterFlowTheme
+                                                                          .bodyText1
+                                                                          .override(
+                                                                        fontFamily:
+                                                                            'Lexend Deca',
+                                                                        color: Color(
+                                                                            0xFF70D423),
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              5,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                      child:
+                                                                          Text(
+                                                                        '${columnRestaurantsRecord.reviews.toString()} reviews',
+                                                                        style: FlutterFlowTheme
+                                                                            .bodyText1,
                                                                       ),
                                                                     )
                                                                   ],

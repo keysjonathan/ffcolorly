@@ -441,6 +441,57 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                                   ),
                                                                 )
                                                               ],
+                                                            ),
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    restaurantsItem
+                                                                        .priceRange,
+                                                                    '\$\$',
+                                                                  ).maybeHandleOverflow(
+                                                                    maxChars:
+                                                                        30,
+                                                                    replacement:
+                                                                        '…',
+                                                                  ),
+                                                                  style: FlutterFlowTheme
+                                                                      .bodyText1
+                                                                      .override(
+                                                                    fontFamily:
+                                                                        'Lexend Deca',
+                                                                    color: Color(
+                                                                        0xFF70D423),
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          5,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                  child: Text(
+                                                                    '${valueOrDefault<String>(
+                                                                      restaurantsItem
+                                                                          .reviews
+                                                                          .toString(),
+                                                                      '0',
+                                                                    )} reviews',
+                                                                    style: FlutterFlowTheme
+                                                                        .bodyText1,
+                                                                  ),
+                                                                )
+                                                              ],
                                                             )
                                                           ],
                                                         ),

@@ -3,6 +3,7 @@ import '../backend/backend.dart';
 import '../components/comments_copy_widget.dart';
 import '../components/comments_widget.dart';
 import '../components/description_sheet_widget.dart';
+import '../components/flag_video_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -71,6 +72,7 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
               stream: queryPostsRecord(
                 queryBuilder: (postsRecord) => postsRecord
                     .where('user', isEqualTo: widget.user.reference)
+                    .where('isFlagged', isEqualTo: false)
                     .orderBy('created_at', descending: true),
               ),
               builder: (context, snapshot) {
@@ -304,14 +306,27 @@ class _NewVideoScreenWidgetState extends State<NewVideoScreenWidget>
                                                               fillColor: Color(
                                                                   0xFF2D2D2D),
                                                               icon: Icon(
-                                                                Icons.more_vert,
+                                                                Icons
+                                                                    .flag_rounded,
                                                                 color: Color(
                                                                     0xFFA4A4A4),
                                                                 size: 20,
                                                               ),
-                                                              onPressed: () {
-                                                                print(
-                                                                    'IconButton pressed ...');
+                                                              onPressed:
+                                                                  () async {
+                                                                await showModalBottomSheet(
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return FlagVideoWidget(
+                                                                      flagVideo:
+                                                                          pageViewPostsRecord,
+                                                                    );
+                                                                  },
+                                                                );
                                                               },
                                                             ),
                                                           ),

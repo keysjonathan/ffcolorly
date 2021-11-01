@@ -66,7 +66,48 @@ class _ViewProfileOtherWidgetState extends State<ViewProfileOtherWidget> {
                 color: FlutterFlowTheme.tertiaryColor,
               ),
             ),
-            actions: [],
+            actions: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+                child: InkWell(
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (alertDialogContext) {
+                        return AlertDialog(
+                          title: Text('Confirm'),
+                          content: Text('Do you want to block this user?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.pop(alertDialogContext),
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.pop(alertDialogContext);
+                                Navigator.pop(context);
+                                ;
+                              },
+                              child: Text('Confirm'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    final usersUpdateData = {
+                      'blockedUsers': FieldValue.arrayUnion([widget.otherUser]),
+                    };
+                    await currentUserReference.update(usersUpdateData);
+                  },
+                  child: Icon(
+                    Icons.person_add_disabled_rounded,
+                    color: FlutterFlowTheme.tertiaryColor,
+                    size: 24,
+                  ),
+                ),
+              )
+            ],
             centerTitle: true,
             elevation: 4,
           ),
@@ -228,6 +269,7 @@ class _ViewProfileOtherWidgetState extends State<ViewProfileOtherWidget> {
                                   child: Text(
                                     viewProfileOtherUsersRecord.bio
                                         .maybeHandleOverflow(maxChars: 60),
+                                    textAlign: TextAlign.center,
                                     style: FlutterFlowTheme.subtitle2.override(
                                       fontFamily: 'Lexend Deca',
                                       color: FlutterFlowTheme.tertiaryColor,
@@ -461,6 +503,8 @@ class _ViewProfileOtherWidgetState extends State<ViewProfileOtherWidget> {
                                                 isEqualTo:
                                                     viewProfileOtherUsersRecord
                                                         .reference)
+                                            .where('isFlagged',
+                                                isEqualTo: false)
                                             .orderBy('created_at',
                                                 descending: true),
                                         limit: 12,
@@ -720,6 +764,8 @@ class _ViewProfileOtherWidgetState extends State<ViewProfileOtherWidget> {
                                                 arrayContains:
                                                     viewProfileOtherUsersRecord
                                                         .reference)
+                                            .where('isFlagged',
+                                                isEqualTo: false)
                                             .orderBy('created_at',
                                                 descending: true),
                                         limit: 12,
