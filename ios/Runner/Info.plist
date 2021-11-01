@@ -43,13 +43,13 @@
 	<true/>
 
 	<key>NSCameraUsageDescription</key>
-	<string>In order to take a picture or video, this app requires permission to access the camera.</string>
+	<string>If you want to record a video to submit as a restaurant review, this app requires permission to access your camera.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>In order to record audio for video, this app requires permission to access the microphone.</string>
+	<string>If you want to record audio to include with your restaurant review, then this app requires permission to use your microphone.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>In order to upload media, this app requires permission to access the photo library.</string>
+	<string>If you want to upload a video from your phone as a restaurant review, then this app requires permission to access your media library.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>In order to search nearby, this app requires access to your current location</string>
+	<string>Turning on location services allows us to show you restaurants that are nearby.</string>
 
     <key>LSApplicationQueriesSchemes</key>
     <array>
