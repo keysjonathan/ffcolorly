@@ -45,6 +45,9 @@ abstract class StoriesRecord
   String get linkLearnMore;
 
   @nullable
+  bool get isFlagged;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -55,7 +58,8 @@ abstract class StoriesRecord
     ..numComments = 0
     ..isOwner = false
     ..campaignName = ''
-    ..linkLearnMore = '';
+    ..linkLearnMore = ''
+    ..isFlagged = false;
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('stories');
@@ -85,6 +89,7 @@ Map<String, dynamic> createStoriesRecordData({
   String campaignName,
   DocumentReference userRef,
   String linkLearnMore,
+  bool isFlagged,
 }) =>
     serializers.toFirestore(
         StoriesRecord.serializer,
@@ -98,4 +103,5 @@ Map<String, dynamic> createStoriesRecordData({
           ..isOwner = isOwner
           ..campaignName = campaignName
           ..userRef = userRef
-          ..linkLearnMore = linkLearnMore));
+          ..linkLearnMore = linkLearnMore
+          ..isFlagged = isFlagged));

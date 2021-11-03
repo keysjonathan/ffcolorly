@@ -4,10 +4,8 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
-import '../phone_sign_in/phone_sign_in_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -24,6 +22,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   bool passwordVisibility;
   bool _loadingButton2 = false;
   bool _loadingButton3 = false;
+  bool _loadingButton4 = false;
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -355,155 +354,40 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(20, 16, 20, 20),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                final user = await signInWithFacebook(context);
-                                if (user == null) {
-                                  return;
-                                }
-                                await Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        NavBarPage(initialPage: 'newHomePage'),
-                                  ),
-                                  (r) => false,
-                                );
-                              },
-                              child: Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Color(0xFF090F13),
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      2, 2, 2, 2),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      final user =
-                                          await signInWithFacebook(context);
-                                      if (user == null) {
-                                        return;
-                                      }
-                                      await Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => NavBarPage(
-                                              initialPage: 'newHomePage'),
-                                        ),
-                                        (r) => false,
-                                      );
-                                    },
-                                    child: Container(
-                                      width: 50,
-                                      height: 50,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: SvgPicture.asset(
-                                        'assets/images/social_facebook.svg',
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                      padding: EdgeInsetsDirectional.fromSTEB(2, 0, 0, 12),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          setState(() => _loadingButton4 = true);
+                          try {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    NavBarPage(initialPage: 'newHomePage'),
                               ),
-                            ),
+                            );
+                          } finally {
+                            setState(() => _loadingButton4 = false);
+                          }
+                        },
+                        text: 'Continue as guest',
+                        options: FFButtonOptions(
+                          width: 200,
+                          height: 40,
+                          color: Color(0x00FFFFFF),
+                          textStyle: FlutterFlowTheme.subtitle2.override(
+                            fontFamily: 'Lexend Deca',
+                            color: FlutterFlowTheme.secondaryColor,
+                            fontSize: 14,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              final user = await signInWithGoogle(context);
-                              if (user == null) {
-                                return;
-                              }
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NavBarPage(initialPage: 'newHomePage'),
-                                ),
-                                (r) => false,
-                              );
-                            },
-                            child: Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              color: Color(0xFF090F13),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-                                child: InkWell(
-                                  onTap: () async {
-                                    final user =
-                                        await signInWithGoogle(context);
-                                    if (user == null) {
-                                      return;
-                                    }
-                                    await Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NavBarPage(
-                                            initialPage: 'newHomePage'),
-                                      ),
-                                      (r) => false,
-                                    );
-                                  },
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      'assets/images/social_GoogleWhite.svg',
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          elevation: 0,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
                           ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                            child: InkWell(
-                              onTap: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PhoneSignInWidget(),
-                                  ),
-                                );
-                              },
-                              child: Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Color(0xFF090F13),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      18, 18, 18, 18),
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+                          borderRadius: 8,
+                        ),
+                        loading: _loadingButton4,
                       ),
                     )
                   ],

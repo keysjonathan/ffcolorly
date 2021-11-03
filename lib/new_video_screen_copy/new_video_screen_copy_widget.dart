@@ -2,6 +2,7 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../components/comments_copy_widget.dart';
 import '../components/description_sheet_widget.dart';
+import '../components/flag_video_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -69,11 +70,11 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width: 30,
+              height: 30,
               child: SpinKitThreeBounce(
                 color: FlutterFlowTheme.primaryColor,
-                size: 50,
+                size: 30,
               ),
             ),
           );
@@ -92,6 +93,7 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                     queryBuilder: (postsRecord) => postsRecord
                         .where('rest_ref',
                             isEqualTo: widget.restaurant.reference)
+                        .where('isFlagged', isEqualTo: false)
                         .orderBy('created_at', descending: true),
                   ),
                   builder: (context, snapshot) {
@@ -99,11 +101,11 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                     if (!snapshot.hasData) {
                       return Center(
                         child: SizedBox(
-                          width: 50,
-                          height: 50,
+                          width: 30,
+                          height: 30,
                           child: SpinKitThreeBounce(
                             color: FlutterFlowTheme.primaryColor,
-                            size: 50,
+                            size: 30,
                           ),
                         ),
                       );
@@ -195,13 +197,13 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                               .hasData) {
                                                             return Center(
                                                               child: SizedBox(
-                                                                width: 50,
-                                                                height: 50,
+                                                                width: 30,
+                                                                height: 30,
                                                                 child:
                                                                     SpinKitThreeBounce(
                                                                   color: FlutterFlowTheme
                                                                       .primaryColor,
-                                                                  size: 50,
+                                                                  size: 30,
                                                                 ),
                                                               ),
                                                             );
@@ -340,15 +342,26 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                       0xFF2D2D2D),
                                                                   icon: Icon(
                                                                     Icons
-                                                                        .more_vert,
+                                                                        .flag_rounded,
                                                                     color: Color(
                                                                         0xFFA4A4A4),
                                                                     size: 20,
                                                                   ),
                                                                   onPressed:
-                                                                      () {
-                                                                    print(
-                                                                        'IconButton pressed ...');
+                                                                      () async {
+                                                                    await showModalBottomSheet(
+                                                                      isScrollControlled:
+                                                                          true,
+                                                                      context:
+                                                                          context,
+                                                                      builder:
+                                                                          (context) {
+                                                                        return FlagVideoWidget(
+                                                                          flagVideo:
+                                                                              pageViewPostsRecord,
+                                                                        );
+                                                                      },
+                                                                    );
                                                                   },
                                                                 ),
                                                               ),
@@ -472,13 +485,13 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                         if (!snapshot.hasData) {
                                                           return Center(
                                                             child: SizedBox(
-                                                              width: 50,
-                                                              height: 50,
+                                                              width: 30,
+                                                              height: 30,
                                                               child:
                                                                   SpinKitThreeBounce(
                                                                 color: FlutterFlowTheme
                                                                     .primaryColor,
-                                                                size: 50,
+                                                                size: 30,
                                                               ),
                                                             ),
                                                           );
@@ -634,11 +647,11 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                           return Center(
                                                                             child:
                                                                                 SizedBox(
-                                                                              width: 50,
-                                                                              height: 50,
+                                                                              width: 30,
+                                                                              height: 30,
                                                                               child: SpinKitThreeBounce(
                                                                                 color: FlutterFlowTheme.primaryColor,
-                                                                                size: 50,
+                                                                                size: 30,
                                                                               ),
                                                                             ),
                                                                           );
@@ -827,13 +840,13 @@ class _NewVideoScreenCopyWidgetState extends State<NewVideoScreenCopyWidget>
                                                                 return Center(
                                                                   child:
                                                                       SizedBox(
-                                                                    width: 50,
-                                                                    height: 50,
+                                                                    width: 30,
+                                                                    height: 30,
                                                                     child:
                                                                         SpinKitThreeBounce(
                                                                       color: FlutterFlowTheme
                                                                           .primaryColor,
-                                                                      size: 50,
+                                                                      size: 30,
                                                                     ),
                                                                   ),
                                                                 );

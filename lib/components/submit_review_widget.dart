@@ -59,9 +59,7 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                 children: [
                   Text(
                     'Rate Restaurant',
-                    style: FlutterFlowTheme.title3.override(
-                      fontFamily: 'Lexend Deca',
-                    ),
+                    style: FlutterFlowTheme.title3,
                   )
                 ],
               ),
@@ -74,9 +72,7 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                 children: [
                   Text(
                     'Rate the restaurant below.',
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Lexend Deca',
-                    ),
+                    style: FlutterFlowTheme.bodyText1,
                   )
                 ],
               ),
@@ -95,12 +91,6 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                     ),
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.primaryDark,
-                      image: DecorationImage(
-                        fit: BoxFit.fitWidth,
-                        image: Image.asset(
-                          'assets/images/classHero.jpg',
-                        ).image,
-                      ),
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 2,
@@ -148,9 +138,7 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                   Text(
                     'What would you rate this restaurant?',
                     textAlign: TextAlign.center,
-                    style: FlutterFlowTheme.bodyText1.override(
-                      fontFamily: 'Lexend Deca',
-                    ),
+                    style: FlutterFlowTheme.bodyText1,
                   )
                 ],
               ),
@@ -445,6 +433,7 @@ class _SubmitReviewWidgetState extends State<SubmitReviewWidget> {
                       userRating: ratingBarValue,
                       videoThumbnail: uploadedFileUrl2,
                       createdAt: getCurrentTimestamp,
+                      isFlagged: false,
                     );
                     await PostsRecord.collection.doc().set(postsCreateData);
                     Navigator.pop(context);

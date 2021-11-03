@@ -6,6 +6,7 @@ import '../map_results_page/map_results_page_widget.dart';
 import '../restaurant_details/restaurant_details_widget.dart';
 import '../search_results/search_results_widget.dart';
 import '../story_details/story_details_widget.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +29,30 @@ class ExploreWidget extends StatefulWidget {
 }
 
 class _ExploreWidgetState extends State<ExploreWidget> {
+  LatLng currentUserLocationValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+    getCurrentUserLocation(defaultLocation: LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (currentUserLocationValue == null) {
+      return Center(
+        child: SizedBox(
+          width: 30,
+          height: 30,
+          child: SpinKitThreeBounce(
+            color: FlutterFlowTheme.primaryColor,
+            size: 30,
+          ),
+        ),
+      );
+    }
     return StreamBuilder<List<PostsRecord>>(
       stream: queryPostsRecord(),
       builder: (context, snapshot) {
@@ -39,11 +60,11 @@ class _ExploreWidgetState extends State<ExploreWidget> {
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width: 30,
+              height: 30,
               child: SpinKitThreeBounce(
                 color: FlutterFlowTheme.primaryColor,
-                size: 50,
+                size: 30,
               ),
             ),
           );
@@ -108,11 +129,11 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                               if (!snapshot.hasData) {
                                 return Center(
                                   child: SizedBox(
-                                    width: 50,
-                                    height: 50,
+                                    width: 30,
+                                    height: 30,
                                     child: SpinKitThreeBounce(
                                       color: FlutterFlowTheme.primaryColor,
-                                      size: 50,
+                                      size: 30,
                                     ),
                                   ),
                                 );
@@ -145,12 +166,12 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                         if (!snapshot.hasData) {
                                           return Center(
                                             child: SizedBox(
-                                              width: 50,
-                                              height: 50,
+                                              width: 30,
+                                              height: 30,
                                               child: SpinKitThreeBounce(
                                                 color: FlutterFlowTheme
                                                     .primaryColor,
-                                                size: 50,
+                                                size: 30,
                                               ),
                                             ),
                                           );
@@ -299,26 +320,39 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                       decoration: BoxDecoration(
                         color: Color(0xFFEEEEEE),
                       ),
-                      child: StreamBuilder<List<RestaurantsRecord>>(
-                        stream: queryRestaurantsRecord(
-                          limit: 30,
+                      child: FutureBuilder<List<RestaurantsRecord>>(
+                        future: RestaurantsRecord.search(
+                          location: getCurrentUserLocation(
+                              defaultLocation:
+                                  LatLng(37.4298229, -122.1735655)),
+                          maxResults: 30,
+                          searchRadiusMeters: 30000,
                         ),
                         builder: (context, snapshot) {
                           // Customize what your widget looks like when it's loading.
                           if (!snapshot.hasData) {
                             return Center(
                               child: SizedBox(
-                                width: 50,
-                                height: 50,
+                                width: 30,
+                                height: 30,
                                 child: SpinKitThreeBounce(
                                   color: FlutterFlowTheme.primaryColor,
-                                  size: 50,
+                                  size: 30,
                                 ),
                               ),
                             );
                           }
                           List<RestaurantsRecord> columnRestaurantsRecordList =
                               snapshot.data;
+                          // Customize what your widget looks like with no search results.
+                          if (snapshot.data.isEmpty) {
+                            return Container(
+                              height: 100,
+                              child: Center(
+                                child: Text('No results.'),
+                              ),
+                            );
+                          }
                           return SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -338,12 +372,12 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                       if (!snapshot.hasData) {
                                         return Center(
                                           child: SizedBox(
-                                            width: 50,
-                                            height: 50,
+                                            width: 30,
+                                            height: 30,
                                             child: SpinKitThreeBounce(
                                               color:
                                                   FlutterFlowTheme.primaryColor,
-                                              size: 50,
+                                              size: 30,
                                             ),
                                           ),
                                         );
@@ -447,15 +481,15 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                                                       child:
                                                                           SizedBox(
                                                                         width:
-                                                                            50,
+                                                                            30,
                                                                         height:
-                                                                            50,
+                                                                            30,
                                                                         child:
                                                                             SpinKitThreeBounce(
                                                                           color:
                                                                               FlutterFlowTheme.primaryColor,
                                                                           size:
-                                                                              50,
+                                                                              30,
                                                                         ),
                                                                       ),
                                                                     );
@@ -608,6 +642,52 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                                                       ),
                                                                     )
                                                                   ],
+                                                                ),
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Text(
+                                                                      valueOrDefault<
+                                                                          String>(
+                                                                        storeListViewRestaurantsRecord
+                                                                            .priceRange,
+                                                                        '\$\$',
+                                                                      ).maybeHandleOverflow(
+                                                                        maxChars:
+                                                                            30,
+                                                                        replacement:
+                                                                            '…',
+                                                                      ),
+                                                                      style: FlutterFlowTheme
+                                                                          .bodyText1
+                                                                          .override(
+                                                                        fontFamily:
+                                                                            'Lexend Deca',
+                                                                        color: Color(
+                                                                            0xFF70D423),
+                                                                        fontSize:
+                                                                            14,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional
+                                                                          .fromSTEB(
+                                                                              5,
+                                                                              0,
+                                                                              0,
+                                                                              0),
+                                                                      child:
+                                                                          Text(
+                                                                        '${columnRestaurantsRecord.reviews.toString()} reviews',
+                                                                        style: FlutterFlowTheme
+                                                                            .bodyText1,
+                                                                      ),
+                                                                    )
+                                                                  ],
                                                                 )
                                                               ],
                                                             ),
@@ -707,8 +787,9 @@ class _ExploreWidgetState extends State<ExploreWidget> {
                                                             onPressed:
                                                                 () async {
                                                               await launchURL(
-                                                                  storeListViewRestaurantsRecord
-                                                                      .restAddress);
+                                                                  functions.getMapUrl(
+                                                                      storeListViewRestaurantsRecord
+                                                                          .restLatLong));
                                                             },
                                                           )
                                                         ],

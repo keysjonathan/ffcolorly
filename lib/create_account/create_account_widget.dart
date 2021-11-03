@@ -1,14 +1,12 @@
 import '../add_profile_info/add_profile_info_widget.dart';
 import '../auth/auth_util.dart';
+import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../login/login_widget.dart';
-import '../main.dart';
-import '../phone_sign_in/phone_sign_in_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CreateAccountWidget extends StatefulWidget {
@@ -26,6 +24,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   TextEditingController passwordConfirmController;
   bool passwordConfirmVisibility;
   bool _loadingButton2 = false;
+  bool checkboxListTileValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -162,9 +161,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       obscureText: false,
                       decoration: InputDecoration(
                         labelText: 'Your email...',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                        ),
+                        labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFE6E6E6),
@@ -197,9 +194,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       obscureText: !passwordVisibility,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                        ),
+                        labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFE6E6E6),
@@ -244,9 +239,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       obscureText: !passwordConfirmVisibility,
                       decoration: InputDecoration(
                         labelText: 'Confirm Password',
-                        labelStyle: FlutterFlowTheme.bodyText1.override(
-                          fontFamily: 'Lexend Deca',
-                        ),
+                        labelStyle: FlutterFlowTheme.bodyText1,
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFE6E6E6),
@@ -297,35 +290,47 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                             onPressed: () async {
                               setState(() => _loadingButton2 = true);
                               try {
-                                if (passwordController.text !=
-                                    passwordConfirmController.text) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        "Passwords don't match!",
+                                if (checkboxListTileValue) {
+                                  if (passwordController.text !=
+                                      passwordConfirmController.text) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          "Passwords don't match!",
+                                        ),
                                       ),
-                                    ),
+                                    );
+                                    return;
+                                  }
+
+                                  final user = await createAccountWithEmail(
+                                    context,
+                                    emailController.text,
+                                    passwordController.text,
                                   );
+                                  if (user == null) {
+                                    return;
+                                  }
+
+                                  final usersCreateData = createUsersRecordData(
+                                    acceptsTerms: true,
+                                  );
+                                  await UsersRecord.collection
+                                      .doc(user.uid)
+                                      .update(usersCreateData);
+                                }
+                                if (checkboxListTileValue) {
+                                  await Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddProfileInfoWidget(),
+                                    ),
+                                    (r) => false,
+                                  );
+                                } else {
                                   return;
                                 }
-
-                                final user = await createAccountWithEmail(
-                                  context,
-                                  emailController.text,
-                                  passwordController.text,
-                                );
-                                if (user == null) {
-                                  return;
-                                }
-
-                                await Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddProfileInfoWidget(),
-                                  ),
-                                  (r) => false,
-                                );
                               } finally {
                                 setState(() => _loadingButton2 = false);
                               }
@@ -353,150 +358,47 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(20, 16, 20, 20),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                          child: InkWell(
-                            onTap: () async {
-                              final user = await signInWithFacebook(context);
-                              if (user == null) {
-                                return;
-                              }
-                              await Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NavBarPage(initialPage: 'newHomePage'),
-                                ),
-                                (r) => false,
-                              );
-                            },
-                            child: Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              color: Color(0xFF090F13),
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-                                child: InkWell(
-                                  onTap: () async {
-                                    final user =
-                                        await signInWithFacebook(context);
-                                    if (user == null) {
-                                      return;
-                                    }
-                                    await Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => NavBarPage(
-                                            initialPage: 'newHomePage'),
-                                      ),
-                                      (r) => false,
-                                    );
-                                  },
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      'assets/images/social_facebook.svg',
-                                    ),
-                                  ),
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                            child: CheckboxListTile(
+                              value: checkboxListTileValue ??= true,
+                              onChanged: (newValue) => setState(
+                                  () => checkboxListTileValue = newValue),
+                              title: Text(
+                                'Agree to ',
+                                textAlign: TextAlign.end,
+                                style: FlutterFlowTheme.title3.override(
+                                  fontFamily: 'Lexend Deca',
+                                  color: FlutterFlowTheme.tertiaryColor,
                                 ),
                               ),
+                              tileColor: Color(0xFFF5F5F5),
+                              activeColor: FlutterFlowTheme.primaryColor,
+                              checkColor: FlutterFlowTheme.tertiaryColor,
+                              dense: true,
+                              controlAffinity: ListTileControlAffinity.leading,
                             ),
                           ),
                         ),
                         InkWell(
                           onTap: () async {
-                            final user = await signInWithGoogle(context);
-                            if (user == null) {
-                              return;
-                            }
-                            await Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    NavBarPage(initialPage: 'newHomePage'),
-                              ),
-                              (r) => false,
-                            );
+                            await launchURL('https://colorly.app/policies');
                           },
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: Color(0xFF090F13),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-                              child: InkWell(
-                                onTap: () async {
-                                  final user = await signInWithGoogle(context);
-                                  if (user == null) {
-                                    return;
-                                  }
-                                  await Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => NavBarPage(
-                                          initialPage: 'newHomePage'),
-                                    ),
-                                    (r) => false,
-                                  );
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: SvgPicture.asset(
-                                    'assets/images/social_GoogleWhite.svg',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                          child: InkWell(
-                            onTap: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => PhoneSignInWidget(),
-                                ),
-                              );
-                            },
-                            child: Card(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              color: Color(0xFF090F13),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    18, 18, 18, 18),
-                                child: Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
+                          child: Text(
+                            'Terms & Conditions',
+                            style: FlutterFlowTheme.bodyText1.override(
+                              fontFamily: 'Lexend Deca',
+                              color: FlutterFlowTheme.primaryColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.italic,
                             ),
                           ),
                         )

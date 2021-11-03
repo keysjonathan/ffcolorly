@@ -7,7 +7,7 @@ import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../new_video_screen_copy/new_video_screen_copy_widget.dart';
-import '../story_details/story_details_widget.dart';
+import '../story_details_copy/story_details_copy_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -70,11 +70,11 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width: 30,
+              height: 30,
               child: SpinKitThreeBounce(
                 color: FlutterFlowTheme.primaryColor,
-                size: 50,
+                size: 30,
               ),
             ),
           );
@@ -92,11 +92,11 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                 if (!snapshot.hasData) {
                   return Center(
                     child: SizedBox(
-                      width: 50,
-                      height: 50,
+                      width: 30,
+                      height: 30,
                       child: SpinKitThreeBounce(
                         color: FlutterFlowTheme.primaryColor,
-                        size: 50,
+                        size: 30,
                       ),
                     ),
                   );
@@ -328,9 +328,7 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                                 child: Text(
                                                                                   'Diverse',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: FlutterFlowTheme.bodyText1.override(
-                                                                                    fontFamily: 'Lexend Deca',
-                                                                                  ),
+                                                                                  style: FlutterFlowTheme.bodyText1,
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -363,9 +361,7 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                                 child: Text(
                                                                                   'Comfortable',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: FlutterFlowTheme.bodyText1.override(
-                                                                                    fontFamily: 'Lexend Deca',
-                                                                                  ),
+                                                                                  style: FlutterFlowTheme.bodyText1,
                                                                                 ),
                                                                               ),
                                                                             ),
@@ -834,11 +830,7 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                   columnRestaurantsRecord
                                                                       .restAddress,
                                                                   style: FlutterFlowTheme
-                                                                      .subtitle2
-                                                                      .override(
-                                                                    fontFamily:
-                                                                        'Lexend Deca',
-                                                                  ),
+                                                                      .subtitle2,
                                                                 ),
                                                               )
                                                             ],
@@ -880,8 +872,8 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                 .where(
                                                                     'rest_ref',
                                                                     isEqualTo:
-                                                                        widget
-                                                                            .restaurant)
+                                                                        columnRestaurantsRecord
+                                                                            .reference)
                                                                 .orderBy(
                                                                     'created_time',
                                                                     descending:
@@ -894,13 +886,13 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                 .hasData) {
                                                               return Center(
                                                                 child: SizedBox(
-                                                                  width: 50,
-                                                                  height: 50,
+                                                                  width: 30,
+                                                                  height: 30,
                                                                   child:
                                                                       SpinKitThreeBounce(
                                                                     color: FlutterFlowTheme
                                                                         .primaryColor,
-                                                                    size: 50,
+                                                                    size: 30,
                                                                   ),
                                                                 ),
                                                               );
@@ -954,13 +946,13 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                           child:
                                                                               SizedBox(
                                                                             width:
-                                                                                50,
+                                                                                30,
                                                                             height:
-                                                                                50,
+                                                                                30,
                                                                             child:
                                                                                 SpinKitThreeBounce(
                                                                               color: FlutterFlowTheme.primaryColor,
-                                                                              size: 50,
+                                                                              size: 30,
                                                                             ),
                                                                           ),
                                                                         );
@@ -978,8 +970,9 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                               type: PageTransitionType.bottomToTop,
                                                                               duration: Duration(milliseconds: 200),
                                                                               reverseDuration: Duration(milliseconds: 200),
-                                                                              child: StoryDetailsWidget(
-                                                                                initialStoryIndex: listViewIndex,
+                                                                              child: StoryDetailsCopyWidget(
+                                                                                initialStoryIndex: 0,
+                                                                                restaurant: columnRestaurantsRecord,
                                                                               ),
                                                                             ),
                                                                           );
@@ -1216,14 +1209,14 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                     if (!snapshot.hasData) {
                                                       return Center(
                                                         child: SizedBox(
-                                                          width: 50,
-                                                          height: 50,
+                                                          width: 30,
+                                                          height: 30,
                                                           child:
                                                               SpinKitThreeBounce(
                                                             color:
                                                                 FlutterFlowTheme
                                                                     .primaryColor,
-                                                            size: 50,
+                                                            size: 30,
                                                           ),
                                                         ),
                                                       );
@@ -1272,13 +1265,13 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                 return Center(
                                                                   child:
                                                                       SizedBox(
-                                                                    width: 50,
-                                                                    height: 50,
+                                                                    width: 30,
+                                                                    height: 30,
                                                                     child:
                                                                         SpinKitThreeBounce(
                                                                       color: FlutterFlowTheme
                                                                           .primaryColor,
-                                                                      size: 50,
+                                                                      size: 30,
                                                                     ),
                                                                   ),
                                                                 );
@@ -1405,11 +1398,11 @@ class _RestaurantDetailsWidgetState extends State<RestaurantDetailsWidget>
                                                                                           if (!snapshot.hasData) {
                                                                                             return Center(
                                                                                               child: SizedBox(
-                                                                                                width: 50,
-                                                                                                height: 50,
+                                                                                                width: 30,
+                                                                                                height: 30,
                                                                                                 child: SpinKitThreeBounce(
                                                                                                   color: FlutterFlowTheme.primaryColor,
-                                                                                                  size: 50,
+                                                                                                  size: 30,
                                                                                                 ),
                                                                                               ),
                                                                                             );

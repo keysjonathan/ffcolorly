@@ -5,6 +5,7 @@ import '../flutter_flow/flutter_flow_google_map.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ class MapResultsPageWidget extends StatefulWidget {
     this.restaurant,
   }) : super(key: key);
 
-  final RestaurantsRecord restaurant;
+  final DocumentReference restaurant;
 
   @override
   _MapResultsPageWidgetState createState() => _MapResultsPageWidgetState();
@@ -42,11 +43,11 @@ class _MapResultsPageWidgetState extends State<MapResultsPageWidget> {
     if (currentUserLocationValue == null) {
       return Center(
         child: SizedBox(
-          width: 50,
-          height: 50,
+          width: 30,
+          height: 30,
           child: SpinKitThreeBounce(
             color: FlutterFlowTheme.primaryColor,
-            size: 50,
+            size: 30,
           ),
         ),
       );
@@ -58,11 +59,11 @@ class _MapResultsPageWidgetState extends State<MapResultsPageWidget> {
         if (!snapshot.hasData) {
           return Center(
             child: SizedBox(
-              width: 50,
-              height: 50,
+              width: 30,
+              height: 30,
               child: SpinKitThreeBounce(
                 color: FlutterFlowTheme.primaryColor,
-                size: 50,
+                size: 30,
               ),
             ),
           );

@@ -74,6 +74,12 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   int get flavorTotal;
 
   @nullable
+  bool get acceptsTerms;
+
+  @nullable
+  BuiltList<DocumentReference> get blockedUsers;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -94,7 +100,9 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..following = ListBuilder()
     ..flavor = ListBuilder()
     ..restConnections = ListBuilder()
-    ..flavorTotal = 0;
+    ..flavorTotal = 0
+    ..acceptsTerms = false
+    ..blockedUsers = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -129,6 +137,9 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
           ..restConnections = safeGet(() => ListBuilder(
               snapshot.data['restConnections'].map((s) => toRef(s))))
           ..flavorTotal = snapshot.data['flavorTotal']
+          ..acceptsTerms = snapshot.data['acceptsTerms']
+          ..blockedUsers = safeGet(() =>
+              ListBuilder(snapshot.data['blockedUsers'].map((s) => toRef(s))))
           ..reference = UsersRecord.collection.doc(snapshot.objectID),
       );
 
@@ -173,6 +184,7 @@ Map<String, dynamic> createUsersRecordData({
   bool isRestaurant,
   DocumentReference restaurantConnect,
   int flavorTotal,
+  bool acceptsTerms,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -195,4 +207,6 @@ Map<String, dynamic> createUsersRecordData({
           ..following = null
           ..flavor = null
           ..restConnections = null
-          ..flavorTotal = flavorTotal));
+          ..flavorTotal = flavorTotal
+          ..acceptsTerms = acceptsTerms
+          ..blockedUsers = null));

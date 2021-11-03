@@ -15,6 +15,8 @@ import 'schema/chats_record.dart';
 import 'schema/chat_messages_record.dart';
 import 'schema/statistics_record.dart';
 import 'schema/likes_record.dart';
+import 'schema/flagged_videos_record.dart';
+import 'schema/restaurant_menus_record.dart';
 import 'schema/serializers.dart';
 
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +34,8 @@ export 'schema/chats_record.dart';
 export 'schema/chat_messages_record.dart';
 export 'schema/statistics_record.dart';
 export 'schema/likes_record.dart';
+export 'schema/flagged_videos_record.dart';
+export 'schema/restaurant_menus_record.dart';
 
 Stream<List<UsersRecord>> queryUsersRecord(
         {Query Function(Query) queryBuilder,
@@ -111,6 +115,22 @@ Stream<List<LikesRecord>> queryLikesRecord(
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollection(LikesRecord.collection, LikesRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<FlaggedVideosRecord>> queryFlaggedVideosRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(
+        FlaggedVideosRecord.collection, FlaggedVideosRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Stream<List<RestaurantMenusRecord>> queryRestaurantMenusRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(
+        RestaurantMenusRecord.collection, RestaurantMenusRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(

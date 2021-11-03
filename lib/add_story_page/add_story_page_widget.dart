@@ -520,6 +520,7 @@ class _AddStoryPageWidgetState extends State<AddStoryPageWidget>
                                 campaignName: campaignNameController.text,
                                 createdTime: getCurrentTimestamp,
                                 userRef: currentUserReference,
+                                isFlagged: false,
                               );
                               await StoriesRecord.collection
                                   .doc()

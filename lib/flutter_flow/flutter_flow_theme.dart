@@ -11,7 +11,6 @@ class FlutterFlowTheme {
 
   String primaryFontFamily = 'Poppins';
   String secondaryFontFamily = 'Roboto';
-
   static TextStyle get title1 => GoogleFonts.getFont(
         'Lexend Deca',
         color: Color(0xFF303030),
@@ -57,17 +56,27 @@ class FlutterFlowTheme {
 }
 
 extension TextStyleHelper on TextStyle {
-  TextStyle override(
-          {String fontFamily,
-          Color color,
-          double fontSize,
-          FontWeight fontWeight,
-          FontStyle fontStyle}) =>
-      GoogleFonts.getFont(
-        fontFamily,
-        color: color ?? this.color,
-        fontSize: fontSize ?? this.fontSize,
-        fontWeight: fontWeight ?? this.fontWeight,
-        fontStyle: fontStyle ?? this.fontStyle,
-      );
+  TextStyle override({
+    String fontFamily,
+    Color color,
+    double fontSize,
+    FontWeight fontWeight,
+    FontStyle fontStyle,
+    bool useGoogleFonts = true,
+  }) =>
+      useGoogleFonts
+          ? GoogleFonts.getFont(
+              fontFamily,
+              color: color ?? this.color,
+              fontSize: fontSize ?? this.fontSize,
+              fontWeight: fontWeight ?? this.fontWeight,
+              fontStyle: fontStyle ?? this.fontStyle,
+            )
+          : copyWith(
+              fontFamily: fontFamily,
+              color: color,
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              fontStyle: fontStyle,
+            );
 }

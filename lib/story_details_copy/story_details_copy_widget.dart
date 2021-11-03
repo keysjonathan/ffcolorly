@@ -14,8 +14,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class StoryDetailsWidget extends StatefulWidget {
-  StoryDetailsWidget({
+class StoryDetailsCopyWidget extends StatefulWidget {
+  StoryDetailsCopyWidget({
     Key key,
     this.initialStoryIndex,
     this.restaurant,
@@ -29,10 +29,10 @@ class StoryDetailsWidget extends StatefulWidget {
   final StoriesRecord stories;
 
   @override
-  _StoryDetailsWidgetState createState() => _StoryDetailsWidgetState();
+  _StoryDetailsCopyWidgetState createState() => _StoryDetailsCopyWidgetState();
 }
 
-class _StoryDetailsWidgetState extends State<StoryDetailsWidget> {
+class _StoryDetailsCopyWidgetState extends State<StoryDetailsCopyWidget> {
   PageController pageViewController;
   bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -50,6 +50,7 @@ class _StoryDetailsWidgetState extends State<StoryDetailsWidget> {
               child: StreamBuilder<List<StoriesRecord>>(
                 stream: queryStoriesRecord(
                   queryBuilder: (storiesRecord) => storiesRecord
+                      .where('rest_ref', isEqualTo: widget.restaurant.reference)
                       .where('isFlagged', isEqualTo: false)
                       .orderBy('created_time', descending: true),
                 ),

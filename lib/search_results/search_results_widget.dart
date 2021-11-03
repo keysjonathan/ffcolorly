@@ -3,6 +3,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../restaurant_details/restaurant_details_widget.dart';
+import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -196,11 +197,11 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                       if (algoliaSearchResults == null) {
                         return Center(
                           child: SizedBox(
-                            width: 50,
-                            height: 50,
+                            width: 30,
+                            height: 30,
                             child: SpinKitThreeBounce(
                               color: FlutterFlowTheme.primaryColor,
-                              size: 50,
+                              size: 30,
                             ),
                           ),
                         );
@@ -232,11 +233,11 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                   if (!snapshot.hasData) {
                                     return Center(
                                       child: SizedBox(
-                                        width: 50,
-                                        height: 50,
+                                        width: 30,
+                                        height: 30,
                                         child: SpinKitThreeBounce(
                                           color: FlutterFlowTheme.primaryColor,
-                                          size: 50,
+                                          size: 30,
                                         ),
                                       ),
                                     );
@@ -440,6 +441,57 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                                   ),
                                                                 )
                                                               ],
+                                                            ),
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                Text(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    restaurantsItem
+                                                                        .priceRange,
+                                                                    '\$\$',
+                                                                  ).maybeHandleOverflow(
+                                                                    maxChars:
+                                                                        30,
+                                                                    replacement:
+                                                                        '…',
+                                                                  ),
+                                                                  style: FlutterFlowTheme
+                                                                      .bodyText1
+                                                                      .override(
+                                                                    fontFamily:
+                                                                        'Lexend Deca',
+                                                                    color: Color(
+                                                                        0xFF70D423),
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          5,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                  child: Text(
+                                                                    '${valueOrDefault<String>(
+                                                                      restaurantsItem
+                                                                          .reviews
+                                                                          .toString(),
+                                                                      '0',
+                                                                    )} reviews',
+                                                                    style: FlutterFlowTheme
+                                                                        .bodyText1,
+                                                                  ),
+                                                                )
+                                                              ],
                                                             )
                                                           ],
                                                         ),
@@ -528,8 +580,9 @@ class _SearchResultsWidgetState extends State<SearchResultsWidget> {
                                                       ),
                                                       onPressed: () async {
                                                         await launchURL(
-                                                            restaurantsItem
-                                                                .restAddress);
+                                                            functions.getMapUrl(
+                                                                restaurantsItem
+                                                                    .restLatLong));
                                                       },
                                                     )
                                                   ],

@@ -14,10 +14,12 @@ class MapMarkerWidget extends StatefulWidget {
     Key key,
     this.restaurant,
     this.posts,
+    this.restaurants,
   }) : super(key: key);
 
   final RestaurantsRecord restaurant;
   final DocumentReference posts;
+  final DocumentReference restaurants;
 
   @override
   _MapMarkerWidgetState createState() => _MapMarkerWidgetState();
